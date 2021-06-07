@@ -1,0 +1,314 @@
+﻿<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#/">Home</a>
+        </li>
+        <li>
+            <a>Master</a>
+        </li>
+        <li>
+            <a>Manufacturing BOM</a>
+        </li>
+        <li class="active">Operation Materials</li>
+        <li class="active">Add/Edit Operation Materials</li>
+    </ul><!-- /.breadcrumb -->
+
+    <div class="nav-search" id="nav-search">
+        <button class="btn1 btn-primary" type="button" ng-click="saveClick(userForm)">
+            <i class="ace-icon fa fa-plus-circle bigger-110"></i>
+            Save
+        </button>
+        <button class="btn1" type="reset" ng-click="cancelClick();">
+            <i class="ace-icon fa fa-closecircle bigger-110"></i>
+            Cancel
+        </button>
+    </div><!-- /.nav-search -->
+</div>
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-inline">
+                <div class="alert alert-danger" ng-if="isError">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <strong>
+                        <i class="ace-icon fa fa-times"></i>
+                        Oh snap!
+                    </strong>
+                    {{SuccessErrorMessage}}
+                    <br />
+                </div>
+                <div class="alert alert-block alert-success" ng-if="isSuccess">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Well done!
+                        </strong>
+                        {{SuccessErrorMessage}}
+                    </p>
+                </div>
+               
+                <form name="userForm" class="form-horizontal" novalidate>
+                    
+                       
+                    <div class="row">
+                        <label class="col-sm-1">BOM #</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="txtBOMNumber" ng-model="operationsMaterial.strBOMNumber" placeholder="BOM Number" readonly>
+                        </div>
+                        <label class="col-sm-1">Date</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.datCreatedOn.$invalid && (userForm.datCreatedOn.$dirty || submitted)}">
+                            <input type="text" class="form-control" ng-model="operationsMaterial.datCreatedOn" name="Date" data-autoclose="1" data-date-format="dd-MM-yyyy" bs-datepicker required tabindex="2" placeholder="BOM Date" disabled>
+                            <p ng-show="userForm.datCreatedOn.$error.required && (userForm.datCreatedOn.$dirty || submitted)" class="help-block">Date is required.</p>
+                        </div>
+                        <label class="col-sm-1">Version</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.strVersion.$invalid && (userForm.strVersion.$dirty || submitted)}">
+                            <input type="text" name="strVersion" class="form-control" ng-model="operationsMaterial.strVersion" placeholder="Version" ng-required="true">
+                            <p ng-show="userForm.strVersion.$error.required && (userForm.strVersion.$dirty || submitted)" class="help-block">Version is required.</p>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Item #</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.ddlItem.$invalid && (userForm.ddlItem.$dirty || submitted)}">
+                                    <div name="ddlItem" custom-select="obj.Id as obj.CodeDesc for obj in dispItem | filter: { CodeDesc: $searchTerm } track by obj.Id" ng-model="operationsMaterial.lngItemId" ng-change="operationsMaterial.lngItemId > 0 && getItemInfo()" ng-required="true" ng-disabled="isEditMode"></div>
+                            <p ng-show="userForm.ddlItem.$error.required && (userForm.ddlItem.$dirty || submitted)" class="help-block">Item Code is required.</p>
+                        </div>
+                        <label class="col-sm-1">Part #</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="txtPartNumber" class="form-control" ng-model="item.PartNumber" placeholder="Part #" readonly>
+
+                        </div>
+                        <label class="col-sm-1">Description</label>
+                        <div class="col-sm-3">
+                            <input name="txtDescription" class="form-control" ng-model="item.ItemDescription" placeholder="Description" readonly>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Batch Qty</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtBatchQty.$invalid && (userForm.txtBatchQty.$dirty || submitted)}">
+                            <input type="text" name="txtBatchQty" style="width:70%;" class="form-control" ng-model="operationsMaterial.decBatchQty" placeholder="Batch Qty" ng-required="true" decimal-number>
+                            <div style="width:29%;float:right;vertical-align:middle;margin-top:6px;margin-left:1px;">{{item.tblMasterUnitOfMeasure.UOMCode}}</div>
+                            <p ng-show="userForm.txtBatchQty.$error.required && (userForm.txtBatchQty.$dirty || submitted)" class="help-block">Batch Qty is required.</p>
+                        </div>
+
+                        <label class="col-sm-1">Dwg #</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.ddlDrawing.$invalid && (userForm.ddlDrawing.$dirty || submitted)}">
+                            <select class="form-control" id="ddlDrawing" name="ddlDrawing" ng-model="operationsMaterial.intDiagramId"
+                                    ng-options="obj.Id as obj.Identifier for obj in itemDrawing" ng-required="true">
+                                <option value="">--Select--</option>
+                            </select>
+                            <p ng-show="userForm.ddlDrawing.$error.required && (userForm.ddlDrawing.$dirty || submitted)" class="help-block">Drawing # is required.</p>
+                        </div>
+                        <label class="col-sm-4"></label>
+                    </div>
+                    <div class="space-4"></div>
+                     
+                        
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="table-header">
+                                Drawing
+                            </div>
+                            <a data-placement="auto" data-title="Click here to expand" bs-tooltip><img ng-src="{{previewDrawing}}" ng-if="previewDrawing" style="cursor:pointer; width:100%;height:200px;border:solid;border-width:1px;" ng-click="operationsMaterial.intDiagramId > 0 && openDrawing()" /></a>
+                            <img src="Content/assets/images/defaultDwgNotFound.png" ng-if="!previewDrawing" style="width:100%;height:200px;border:solid;border-width:1px;"  />
+                        </div>                       
+                        <div class="col-sm-6">
+                            <div class="table-header">
+                                Technical Specification
+                            </div>
+                            <!--<textarea name="txtSpecification" class="form-control msd-elastic" style="height:auto" ng-model="operationsMaterial.strBOMDescription" placeholder="Technical specification" ng-required="true"></textarea>-->
+                            <textarea name="txtSpecification" class="form-control" style="height:200px; width:100%;" ng-model="operationsMaterial.strBOMDescription" placeholder="Technical specification" ng-required="true"></textarea>
+
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                       
+                        
+                    <div class="row">
+                        <label class="col-sm-6"><b>Items</b></label>
+                        <label class="col-sm-6"></label>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="table-header">
+                                Component and Operations
+                            </div>
+                            <div class="dataTables_wrapper form-inline">
+                                <div style="cursor:pointer;" bs-tabs>
+                                    <div title="Component" bsactivepane style="padding-top:5px;" bs-pane>
+                                <table class="table table-striped table-bordered table-hover" style="table-layout:fixed;">
+                                    <thead class="tableheading">
+                                        <tr>
+                                            <th style="width:3%;"><a ng-click="operationsMaterial.lngItemId > 0 && addNewItemRow()"><i class="ace-icon fa fa-user-plus" data-placement="bottom" data-title="{{addIconToolTip}}" bs-tooltip></i></a></th>
+                                                            <th style="width:20%;">
+                                                <div class="sort"><a>Identifier</a></div>
+                                            </th>
+                                            <th style="width:10%;">
+                                                <div class="sort"><a>Part #</a></div>
+                                            </th>
+                                            <th style="width:10%;">
+                                                <div class="sort"><a>Level</a></div>
+                                            </th>
+                                            <th style="width:8%;">
+                                                <div class="sort"><a>Qty</a></div>
+                                            </th>
+                                            <th style="width:9%;">
+                                                <div class="sort"><a>UOM</a></div>
+                                            </th>
+                                                            <th style="width:15%;">
+                                                <div class="sort"><a>Dwg #</a></div>
+                                            </th>
+                                                            <th style="width:25%;">
+                                                <div class="sort"><a>Note</a></div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="objItem in gridItems" ng-form="subform">
+                                            <td>
+                                                <div class="hidden-sm hidden-xs action-buttons">
+                                                    <a class="red" ng-if="!objgrade.Id" ng-click="!objgrade.disabled && removeRow($index,objCustomerContact)" data-title="Cancel" bs-tooltip data-placement="right">
+                                                        <i class="ace-icon fa fa-trash-o bigger-130" data-placement="bottom" data-title="Remove contact" bs-tooltip></i>
+                                                    </a>
+                                                    <a class="red" ng-if="objgrade.Id" ng-click="!objgrade.disabled && DeletedRow(objCustomerContact,$index)" data-title="Delete" bs-tooltip data-placement="right">
+                                                        <i class="ace-icon fa fa-trash-o bigger-130" data-placement="bottom" data-title="Remove contact" bs-tooltip></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                                <div ng-class="{ 'has-error' : subform.ddlGridItem.$invalid && (subform.ddlGridItem.$dirty || submitted)}" data-placement="bottom" data-title="{{objItem.itemdesc}}" bs-tooltip>                                                                    
+                                                                    <div name="ddlGridItem" style="width:98%;" custom-select="obj.Id as obj.CodeDesc for obj in dispItem | filter: { CodeDesc: $searchTerm } track by obj.Id"
+                                                         ng-model="objItem.lngItemId" ng-change="getItemDetails(objItem,$index)" ng-required="true" ></div>
+                                                    <p ng-show="subform.ddlGridItem.$error.required && (subform.ddlGridItem.$dirty || submitted)" class="help-block">item is required.</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                                {{objItem.partNo}}
+                                                                <!--<input type="text" style="width:98%;" name="txtGridPartNo" class="form-control" ng-model="objItem.partNo" placeholder="Part #" readonly>-->
+                                            </td>
+                                            <td>
+                                                <div ng-class="{ 'has-error' : subform.ddlGridLevel.$invalid && (subform.ddlGridLevel.$dirty || submitted)}">
+                                                    <select id="ddlGridLevel" style="width:98%;" name="ddlGridLevel" ng-model="objItem.lngLevelId"
+                                                            ng-options="obj.lngId as obj.Identifier for obj in dispBOMLevel" ng-required="true">
+                                                        <option value="">--Select--</option>
+                                                    </select>
+                                                    <p ng-show="subform.ddlGridLevel.$error.required && (subform.ddlGridLevel.$dirty || submitted)" class="help-block">Level is required.</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div ng-class="{ 'has-error' : subform.txtGridQty.$invalid && (subform.txtGridQty.$dirty || submitted)}">
+                                                    <input type="text" style="width:98%;" name="txtGridQty" class="form-control" ng-model="objItem.lngQuantity" placeholder="Quantity" ng-required="true" decimal-number>
+                                                    <p ng-show="subform.txtGridQty.$error.required && (subform.txtGridQty.$dirty || submitted)" class="help-block">Qty is required.</p>
+                                                </div>
+                                            </td>
+                                                            <td>{{objItem.uom}}
+                                                            <!--<input type="text" style="width:98%;" name="txtGridUOM" class="form-control" ng-model="objItem.uom" placeholder="UOM" readonly>-->
+                                                            </td>
+                                            <td><a ng-click="openDrawingPopUp()">{{objItem.dwgName}}</a></td>
+                                            <td><input type="text" style="width:98%;" name="txtGridNote" class="form-control" ng-model="objItem.strNote" placeholder="Note"></td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                    </div>
+                                    <div title="Operations" bs-pane>
+                                            <div style ="width:50%">
+                                                <table class="table table-striped table-bordered table-hover" style="table-layout:fixed;">
+                                                    <thead class="tableheading">
+                                                        <tr>
+                                                            <th style="width:3%;"><a ng-click="addNewOperationRow()"><i class="ace-icon fa fa-user-plus" data-placement="bottom" data-title="{{addIconToolTip}}" bs-tooltip></i></a></th>
+                                                            <th style="width:40%;">
+                                                                <div class="sort"><a>Operation</a></div>
+                                                            </th>
+                                                            <th style="width:20%;">
+                                                                <div class="sort"><a>Value</a></div>
+                                                            </th>
+                                                            <th style="width:17%;">
+                                                                <div class="sort"><a>Unit</a></div>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="objOperation in gridOperations">
+                                                            <td>
+                                                                <div class="hidden-sm hidden-xs action-buttons">
+                                                                    <a class="red" ng-if="!objgrade.Id" ng-click="!objgrade.disabled && removeRow($index,objCustomerContact)" data-title="Cancel" bs-tooltip data-placement="right">
+                                                                        <i class="ace-icon fa fa-trash-o bigger-130" data-placement="bottom" data-title="Remove contact" bs-tooltip></i>
+                                                                    </a>
+                                                                    <a class="red" ng-if="objgrade.Id" ng-click="!objgrade.disabled && DeletedRow(objCustomerContact,$index)" data-title="Delete" bs-tooltip data-placement="right">
+                                                                        <i class="ace-icon fa fa-trash-o bigger-130" data-placement="bottom" data-title="Remove contact" bs-tooltip></i>
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div ng-class="{ 'has-error' : userForm.ddlGridItem.$invalid && (userForm.ddlGridItem.$dirty || submitted)}">
+                                                                    <select id="ddlGridOperations" style="width:98%;" name="ddlGridOperations" ng-model="objOperation.lngOperationId" ng-change="getOperationDetails(objOperation,$index)"
+                                                                            ng-options="obj.lngId as obj.strOperation for obj in dispBOMOperations" ng-required="true">
+                                                                        <option value="">--Select--</option>
+                                                                    </select>
+                                                                    <p ng-show="userForm.ddlGridOperations.$error.required && (userForm.ddlGridOperations.$dirty || submitted)" class="help-block">item is required.</p>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" style="width:98%;" name="txtOprValue" class="form-control" ng-model="objOperation.decValue" placeholder="Value" decimal-number>
+                                                            </td>
+
+                                                            <td>
+                                                               {{objOperation.unit}}
+                                                            </td>
+
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        <div style="width:50%">
+
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-8"></div>
+                       
+                   
+
+                    
+                  
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="defaultDrawing.html">
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" style="width:80%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="$hide()">&times;</button>
+                    <h4 class="modal-title">Default Drawing {{Item.ItemCode}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <img ng-src="{{previewDrawing}}" style="width:80%;height:80%;" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm" ng-click="$hide()" style="width: 100px;">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

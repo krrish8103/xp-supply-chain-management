@@ -1,0 +1,54 @@
+﻿<div class="container" ng-controller="DemoController">
+    <h1>Custom Select Example</h1>
+
+    <h2>Simple objects</h2>
+    <p>Selected fruit: {{ fruit }}</p>
+    <div custom-select="f for f in fruits | filter: $searchTerm" ng-model="fruit" autofocus></div>
+    <button type="button" class="btn" ng-click="setToMango()">Set to mango</button>
+    <h2>Complex objects</h2>
+    <p>Selected state: {{ state }}</p>
+    <div custom-select="s.id as s.name for s in states | filter: { name: $searchTerm } track by s.id" ng-model="state"></div>
+    <button type="button" class="btn" ng-click="reset()">Reset</button>
+
+    <h2>Custom options</h2>
+    <h3>Change the appearance</h3>
+
+    <div class="row">
+        <div class="span3">
+            <div custom-select="g for g in custom | filter: $searchTerm" ng-model="test" custom-select-options="customOptions" ng-disabled="!isCustomEnabled"></div>
+        </div>
+        <div class="span3">
+            <label>Change initial display text</label>
+            <input type="text" ng-model="customOptions.displayText" />
+            <label class="checkbox">
+                <input type="checkbox" ng-model="isCustomEnabled" />
+                Is enabled
+            </label>
+        </div>
+    </div>
+
+    <h3>Add new items</h3>
+    <div custom-select="g for g in growable | filter: $searchTerm" ng-model="custom1" custom-select-options="growableOptions"></div>
+
+    <h3>Custom filtering</h3>
+    <div custom-select="a for a in searchAsync($searchTerm)" custom-select-options="{ 'async': true }" ng-model="custom2"></div>
+
+    <h3>Custom item template</h3>
+    <p>Selected person: {{ person | json }}</p>
+    <div custom-select="t as t.name for t in people | filter: { name: $searchTerm }" ng-model="person">
+        <div class="pull-left" style="width: 40px">
+            <img ng-src="{{ t.picture }}" style="width: 30px" />
+        </div>
+        <div class="pull-left">
+            <strong>{{ t.name }}</strong><br />
+            <span>{{ t.phone }}</span>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <h3>Nested</h3>
+    <label>Level 1</label>
+    <div custom-select="g for g in nestedItemsLevel1 | filter: $searchTerm" custom-select-options="level1Options" ng-model="level1"></div>
+    <label>Level 2</label>
+    <div custom-select="g for g in nestedItemsLevel2 | filter: $searchTerm" ng-model="level2" cs-depends-on="level1"></div>
+</div>

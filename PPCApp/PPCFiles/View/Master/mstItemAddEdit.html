@@ -1,0 +1,184 @@
+﻿<div class="main-content-inner">
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="#">Home</a>
+            </li>
+
+            <li>
+                <a href="#">Master</a>
+            </li>
+            <li class="active">Add Edit Items</li>
+        </ul><!-- /.breadcrumb -->
+
+        <div class="nav-search" id="nav-search">
+            <button class="btn1 btn-primary" type="button" ng-click="saveClick(userForm);" ng-disabled="frmItem.$invalid">
+                <i class="ace-icon fa fa-floppy-o bigger-110"></i>
+                Save
+            </button>
+            <button class="btn1" type="reset" ng-click="cancelClick();">
+                <i class="ace-icon fa fa-closecircle bigger-110"></i>
+                Cancel
+            </button>
+        </div><!-- /.nav-search -->
+    </div>
+
+    <div class="page-content">
+        <div class="alert alert-danger" ng-if="isError">
+            <button type="button" class="close" data-dismiss="alert">
+                <i class="ace-icon fa fa-times"></i>
+            </button>
+            <strong>
+                <i class="ace-icon fa fa-times"></i>
+                Oh snap!
+            </strong>
+            {{SuccessErrorMessage}}
+            <br />
+        </div>
+        <div class="alert alert-block alert-success" ng-if="isSuccess">
+            <button type="button" class="close" data-dismiss="alert">
+                <i class="ace-icon fa fa-times"></i>
+            </button>
+            <p>
+                <strong>
+                    <i class="ace-icon fa fa-check"></i>
+                    Well done!
+                </strong>
+                {{SuccessErrorMessage}}
+            </p>
+        </div>
+
+        <form name="userForm" class="form-horizontal" novalidate>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="row" ng-if="editMode">
+                        <div class="col-xs-6">
+                            <div class="form-group" >
+                                <label class="col-sm-4">Identifier</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="txtItemCode" class="form-control" ng-model="Item.Identifier" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">                            
+                            <div class="form-group" ng-class="{ 'has-error' : userForm.txtItemName.$invalid && (userForm.txtItemName.$dirty || submitted)}">
+                                <label class="col-sm-4">Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="txtItemName" class="form-control" ng-model="Item.ItemName" placeholder="Name" ng-required="true">
+                                    <p ng-show="userForm.txtItemName.$error.required && (userForm.txtItemName.$dirty || submitted)" class="help-block">Item Name is required.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group" ng-class="{ 'has-error' : userForm.ddlItemCategory.$invalid && (userForm.ddlItemCategory.$dirty || submitted)}">
+                                <label class="col-sm-4">Category</label>
+                                <div class="col-sm-8">                                   
+                                    <select class="form-control" id="ddlItemCategory" name="ddlItemCategory" ng-model="Item.ItemCategory"
+                                            ng-options="obj.Id as obj.Code for obj in dispItemCategory" ng-required="true">
+                                        <option value="">--Select--</option>
+                                    </select>
+                                    <p ng-show="userForm.ddlItemCategory.$error.required && (userForm.ddlItemCategory.$dirty || submitted)" class="help-block">Item Category is required.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group" ng-class="{ 'has-error' : userForm.txtItemDescription.$invalid && (userForm.txtItemDescription.$dirty || submitted)}">
+                                <label class="col-sm-4">Description</label>
+                                <div class="col-sm-8">
+                                    <textarea name="txtItemDescription" rows="2" cols="20" class="form-control" ng-model="Item.ItemDescription" placeholder="Description" ng-required="true"></textarea>
+                                    <p ng-show="userForm.txtItemDescription.$error.required && (userForm.txtItemDescription.$dirty || submitted)" class="help-block">Item Description is required.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group" ng-class="{ 'has-error' : userForm.ddlUOM.$invalid && (userForm.ddlUOM.$dirty || submitted)}">
+                                <label class="col-sm-4">Unit Of Measure:</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="ddlUOM" name="ddlUOM" ng-model="Item.UOM"
+                                            ng-options="obj.Id as (obj.UOMCode +' - '+ obj.UOMDescription) for obj in dispUOM" ng-required="true">
+                                        <option value="">--Select--</option>
+                                    </select>
+                                    <p ng-show="userForm.ddlUOM.$error.required && (userForm.ddlUOM.$dirty || submitted)" class="help-block">Unit of measure is required.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="col-sm-4">Fence :</label>                                
+                                <div class="col-sm-4">                                    
+                                    <input type="text" class="form-control" name="txtMinStockLevel" placeholder="Min Fence" ng-model="Item.MinStockLevel" decimal-number>                                    
+                                </div>                                
+                                <div class="col-sm-4">                                   
+                                    <input type="text" class="form-control" name="txtMaxStockLevel" placeholder="Max Fence" ng-model="Item.MaxStockLevel" decimal-number>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="col-sm-4">Reprocurement Level:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="txtMaxStockLevel" placeholder="Re-Order Level" ng-model="Item.Reprocurement" decimal-number>                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="col-sm-4">Lead Time :</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="txtMinStockLevel" placeholder="Lead Time" ng-model="Item.LeadTime" decimal-number>                                    
+                                </div> 
+                                <div class="col-sm-4">
+                                    <select class="form-control" id="ddlReprocurementUnit" name="ddlReprocurementUnit" ng-model="Item.LeadTimeUnit">
+                                        <option value="">--Select--</option>
+                                        <option value="Hours">Hours</option>
+                                        <option value="Days">Days</option>
+                                        <option value="Weeks">Weeks</option>
+                                        <option value="Months">Months</option>
+                                        <option value="Years">Years</option>
+                                    </select>
+                                </div>                               
+                            </div>
+                        </div>
+                        <div class="col-xs-6">                            
+                        </div>
+                    </div>
+                    <div class="row" style="border:solid; border-width:1px;margin-top:15px; vertical-align:middle">
+                        <div class="col-xs-4">                            
+                                <label class="col-sm-4">Weighted Rate  :</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="txtMinStockLevel" placeholder="Weighted Rate" disabled>                                    
+                                </div>
+                        </div>
+                        <div class="col-xs-4">                           
+                                <label class="col-sm-4">High rate  :</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="txtMinStockLevel" placeholder="High rate" disabled>
+                                </div>                            
+                        </div>
+                        <div class="col-xs-4">                            
+                                <label class="col-sm-4">Low rate :</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" name="txtMinStockLevel" placeholder="Low rate" disabled >
+                                </div>                            
+                        </div>
+                    </div>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </form>
+    </div><!-- /.page-content -->
+
+
+</div>

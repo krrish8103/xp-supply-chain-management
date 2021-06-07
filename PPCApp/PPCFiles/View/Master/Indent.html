@@ -1,0 +1,170 @@
+﻿<div class="main-content-inner">
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="#/">Home</a>
+            </li>
+
+            <li>
+                <a>Master</a>
+            </li>
+            <li class="active">Indent</li>
+        </ul><!-- /.breadcrumb -->
+
+
+        <div class="nav-search" id="nav-search">
+            <button class="btn1 btn-info" type="button" ng-click="AddIndentClick();">
+                <i class="ace-icon fa fa-plus-circle bigger-110"></i>
+                Add
+            </button>
+            <button class="btn1" type="button" ng-click="cancelIndentClick();">
+                <i class="ace-icon fa fa-closecircle bigger-110"></i>
+                Cancel
+            </button>
+        </div><!-- /.nav-search -->
+    </div>
+
+    <div class="page-content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="dataTables_wrapper form-inline">
+                    <table st-table="dispIndent" st-safe-src="allIndent" class="table table-striped table-bordered table-hover" st-set-filter="customFilter">
+                        <thead>
+                            <tr>
+                                <td colspan="9">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="dataTables_length" id="dynamic-table_length">
+                                                <label>Display <select name="dynamic-table_length" class="input-sm" ng-model="itemsByPage"><option value="5">5</option><option value="10">10</option><option value="20">20</option><option value="50">50</option><option value="100">100</option></select> records</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="dataTables_filter" id="dynamic-table_filter">
+                                                <div class="pull-right tableTools-container">
+                                                    <div class="btn-group btn-overlap">
+                                                        <span data-type="info" data-placement="bottom" data-title="Export to CSV" bs-tooltip>
+                                                            <a tabindex="0" class="btn btn-white btn-primary btn-bold" export export-data="allLocation" export-keys="exportKeys" export-headers="exportHeaders"><i class="fa fa-copy bigger-110 pink"></i></a>
+                                                        </span>
+                                                        <span data-type="info" data-placement="bottom" data-title="Export to Excel" bs-tooltip>
+                                                            <a tabindex="0" class="btn btn-white btn-primary  btn-bold"><i class="fa fa-file-excel-o bigger-110 green"></i></a>
+                                                        </span>
+                                                        <span data-type="info" data-placement="bottom" data-title="Export to PDF" bs-tooltip>
+                                                            <a tabindex="0" class="btn btn-white btn-primary  btn-bold"><i class="fa fa-file-pdf-o bigger-110 red"></i></a>
+                                                        </span>
+                                                        <span data-type="info" data-placement="bottom" data-title="Refresh Grid" bs-tooltip>
+                                                            <a tabindex="0" class="btn btn-white btn-primary  btn-bold" st-reset-search><i class="fa fa-refresh bigger-110 grey"></i></a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th style="width:8%;">Actions</th>
+                                <th style="width:10%;">
+                                    <div class="sort" st-sort="intStatus"><a>Status</a></div>
+                                    <input type="text" class="filterControl" style="width:90%" autocomplete="off" st-search="intStatus" />
+                                </th>
+                                <th style="width:7%;">
+                                    <div class="sort" st-sort="strIndentNumber"><a>Indent #</a></div>
+                                    <input type="text" class="filterControl" style="width:90%" autocomplete="off" st-search="strIndentNumber" />
+                                </th>
+                                <th style="width:8%;">
+                                    <div class="sort" st-sort="datIndentDate"><a>Date</a></div>
+                                    <input type="text" class="filterControl" style="width:90%" autocomplete="off" st-search="datIndentDate" />
+                                </th>
+
+                                <th style="width:15%;">
+                                    <div class="sort" st-sort="strReference"><a>Ref #</a></div>
+                                    <input type="text" class="filterControl" style="width:90%" autocomplete="off" st-search="strReference" />
+                                </th>
+
+                                <th style="width:8%;">
+                                    <div class="sort" st-sort="datReferenceDate"><a>Date</a></div>
+                                    <input type="text" class="filterControl" style="width:90%" autocomplete="off" st-search="datReferenceDate" />
+                                </th>
+
+                                <th style="width:20%;">
+                                    <div class="sort" st-sort="strIndentDescription"><a>Purpose</a></div>
+                                    <input type="text" class="filterControl" style="width:90%" autocomplete="off" st-search="strIndentDescription" />
+                                </th>
+
+
+
+                                <th style="width:15%;">
+                                    <div class="sort" st-sort="AddedBy"><a>Created By</a></div>
+                                    <input type="text" class="filterControl" style="width:90%" autocomplete="off" st-search="AddedBy" />
+                                </th>
+
+                                <th style="width:15%;">
+                                    <div class="sort" st-sort="ApprovedBy"><a>Approved By</a></div>
+                                    <input type="text" class="filterControl" style="width:90%" autocomplete="off" st-search="ApprovedBy" />
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="Indent in dispIndent" ng-class="{'tableRow': !isEven($index +1), 'tableRowAlternate': isEven($index +1)}">
+
+                                <td>
+                                    <div class="hidden-sm hidden-xs action-buttons">
+                                        <!--<a class="green cursorpointer" ng-click="viewWorkOrderClick(workOrder)" data-placement="right" data-title="View" bs-tooltip>
+                                            <i class="ace-icon fa fa-search-plus bigger-130"></i>
+                                        </a>-->
+                                        <a class="green cursorpointer" ng-click="editIndentClick(Indent)" data-placement="bottom" data-title="Edit" bs-tooltip>
+                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                        </a>
+                                        <a class="red cursorpointer" data-placement="bottom" data-title="Delete" bs-tooltip>
+                                            <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                        </a>
+
+                                        <a class="green cursorpointer" ng-click="setDocStatusToWorkingDraft(Indent)" data-placement="bottom" data-title="Document Status" bs-tooltip ng-if="(Indent.lngDocStatus==2)">
+                                            <i class="ace-icon fa fa-reply bigger-130"></i>
+                                        </a>
+                                        <a class="green cursorpointer" ng-click="setDocStatusToCompleted(Indent)" data-placement="bottom" data-title="Document Status" bs-tooltip ng-if="Indent.lngDocStatus==1">
+                                            <i class="ace-icon fa fa-share bigger-130"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td><span ng-if="Indent.lngDocStatus==1">Working Draft</span><span ng-if="Indent.lngDocStatus==2">Completed</span><span ng-if="Indent.lngDocStatus==3">Approved</span></td>
+                                <td>{{Indent.strIndentNumber}}</td>
+                                <td>{{Indent.datIndentDate | date:'MM-dd-yyyy'}}</td>
+                                <td>{{Indent.strReference}}</td>
+                                <td>{{Indent.datReferenceDate | date:'MM-dd-yyyy'}}</td>
+                                <td>{{Indent.strIndentDescription}}</td>
+                                <td>{{Indent.AddedBy}}</td>
+                                <td>{{Indent.ApprovedBy}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="8">
+                                    <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.page-content -->
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

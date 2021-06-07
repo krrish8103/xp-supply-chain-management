@@ -1,0 +1,128 @@
+﻿
+        <div class="login-layout light-login" ng-controller="loginController" data-ng-hide="authentication.isLoggedin">
+            <div class="main-container">
+                <div class="main-content">
+                    <div class="row">
+                <!--<div class="center">
+                            <h2>
+
+                                <span class="blue">{{clientInfo.Description}}</span>
+                            </h2>
+
+                </div>-->
+
+                <div class="col-sm-12" >
+                    <div class="space-20"></div>
+                    <div class="col-sm-6" >
+                        <div class="space-20"></div>
+                        
+                        <div style="float:right;"><img src="Content/assets/images/gallery/SCMLogo.jpg" style="height: 300px; width: 500px;  box-shadow:10px 10px 5px #888888;float:left;" /></div>
+                        <div class="space-20"></div>
+                        <div class="position-relative">
+                            <div style="float:right;"><img src="Content/assets/images/gallery/HomePageSCM.png" style="height: 125px; width: 500px;  box-shadow: 10px 10px 5px #888888" /></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 login-container"   >
+
+
+                                <div class="space-32"></div>
+                        <div class="space-32"></div>
+                        <div class="space-32"></div>
+                        <div class="position-relative col-sm-offset-2"  >
+                                    <div id="login-box" class="login-box visible widget-box no-border">
+
+                                        <div class="widget-body">
+
+                                            <div class="widget-main">
+                                        <div style="text-align:center;"><img ng-src={{clientImage}} style="border-radius: 45%;height:90px;width:90px; margin-top:-75px;" /></div>
+                                                <div class="space-6"></div>
+                                                <form name="loginform">
+                                                    <fieldset>
+                                                        <span class="block input-icon input-icon-right">
+                                                            User Name :
+                                                        </span>
+                                                        <span class="block input-icon input-icon-right" style="margin-top:5px;">
+                                                            <input type="text" class="form-control" placeholder="Username" ng-model="user.username" ng-enter="getUserByNamePassword(user.username,user.password)" focus="true" />
+                                                            <i class="ace-icon fa fa-user"></i>
+                                                        </span>
+                                                        <div class="space-6"></div>
+                                                        <span class="block input-icon input-icon-right" style="margin-top:5px;">
+                                                            Password :
+                                                        </span>
+                                                        <span class="block input-icon input-icon-right">
+                                                            <input type="password" class="form-control" placeholder="Password" ng-model="user.password" ng-enter="getUserByNamePassword(user.username,user.password)" />
+                                                            <i class="ace-icon fa fa-lock"></i>
+                                                        </span>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+                                            <div class="toolbar clearfix">
+                                                <div style="position:absolute;bottom:7px;">
+                                                    <a href="#" class="forgot-password-link">
+                                                        Forgot password
+                                                    </a>
+                                                </div>
+                                                <div>
+                                                    <!--<a class="user-signup-link" href="#" data-target="#signup-box">
+                                                        I want to register
+                                                        <i class="ace-icon fa fa-arrow-right"></i>
+                                                    </a>-->
+                                                    <button type="button" class="pull-right btn btn-sm btn-primary" ng-disabled="loginform.$invalid" ng-click="getUserByNamePassword(user.username,user.password)">
+                                                        <img src="Content/assets/images/save.png" />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div><!-- /.widget-body -->
+                                    </div><!-- /.login-box -->
+
+                                    <div id="forgot-box" class="forgot-box widget-box no-border">
+                                        <div class="widget-body">
+                                            <div class="widget-main">
+                                                <h4 class="header red lighter bigger">
+                                                    <i class="ace-icon fa fa-key"></i>
+                                                    Retrieve Password
+                                                </h4>
+
+                                                <div class="space-6"></div>
+                                                <p>
+                                                    Enter your email and to receive instructions
+                                                </p>
+
+                                                <form>
+                                                    <fieldset>
+                                                        <label class="block clearfix">
+                                                            <span class="block input-icon input-icon-right">
+                                                                <input type="email" class="form-control" placeholder="Email" />
+                                                                <i class="ace-icon fa fa-envelope"></i>
+                                                            </span>
+                                                        </label>
+
+                                                        <div class="clearfix">
+                                                            <button type="button" class="width-35 pull-right btn btn-sm btn-danger">
+                                                                <i class="ace-icon fa fa-lightbulb-o"></i>
+                                                                <span class="bigger-110">Send Me!</span>
+                                                            </button>
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+                                            </div><!-- /.widget-main -->
+
+                                            <div class="toolbar center">
+                                                <a href="#" data-target="#login-box" class="back-to-login-link">
+                                                    Back to login
+                                                    <i class="ace-icon fa fa-arrow-right"></i>
+                                                </a>
+                                            </div>
+                                        </div><!-- /.widget-body -->
+                                    </div><!-- /.forgot-box -->
+                                    <!-- /.signup-box -->
+                                </div><!-- /.position-relative -->
+                            </div>
+                    
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.main-content -->
+            </div>
+        </div>
+
+

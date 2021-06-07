@@ -1,0 +1,822 @@
+﻿
+<div class="main-container ace-save-state" id="main-container">
+    <div class="main-content">
+        <div class="main-content-inner">
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="ace-icon fa fa-home home-icon"></i>
+                        <a href="#/">Home</a>
+                    </li>
+
+                    <li>
+                        <a>Dashboard</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-sm-12" ng-controller="machineDashboardController">
+
+
+                        <div class="row">
+                            <div class="space-12"></div>
+                            <div style="height: 350px; ">
+                                <div class="row" style="padding-left:100px;">
+                                    <div class=" col-sm-7">
+                                        <div class="panel panel-primary" style="box-shadow: 5px 5px 5px;">
+
+                                            <div class="panel-body" style="padding:0px;">
+                                                <table border="1" style="width:100%;">
+                                                    <thead style="text-align:center;">
+                                                        <tr style="font-weight: bold; background-color: #337ab7; color: white;">
+                                                            <td style="border-right-color:white;text-align:center;"></td>
+                                                            <td style="border-right-color: white; text-align: center;">Production</td>
+                                                            <td style="border-right-color: white; text-align: center;">Efficiency</td>
+                                                            <td style="border-right-color: white; text-align: center;">Utilization</td>
+                                                            <td style="border-right-color: white; text-align: center;">Logistics</td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="font-weight: bold;text-align:center;">Target</td>
+                                                            <td style="text-align:center;">{{overAllProduction[0].ProductionSetValue}}</td>
+                                                            <td style="text-align:center;">{{overAllProduction[0].EfficiencySetValue}}</td>
+                                                            <td style="text-align:center;">{{overAllProduction[0].UtilizationSetValue}}</td>
+                                                            <td style="text-align:center;">{{overAllProduction[0].LogisticsSetValue}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="font-weight: bold;text-align:center;">Actual</td>
+                                                            <td style="text-align:center;">{{overAllProduction[0].ProductionActualValue}}</td>
+                                                            <td style="text-align:center;">{{overAllProduction[0].EfficiencyActualValue}}</td>
+                                                            <td style="text-align:center;">{{overAllProduction[0].UtilizationActualValue}}</td>
+                                                            <td style="text-align:center;">{{overAllProduction[0].LogisticsActualValue}}</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td style="font-weight: bold;text-align:center;">Shortfall</td>
+                                                            <td style="text-align:center;" ng-click="viewAllDayProductionClick()" ng-style="{ 'background-color' :  actionColorProduction, 'color':actionColorProductionFont }">{{overAllProduction[0].HeatProductionActualValue}}</td>
+                                                            <td style="text-align:center;" ng-style="{ 'background-color' :  actionColorEfficiency, 'color':actionColorEfficiencyFont  }">{{overAllProduction[0].HeatEfficiencyActualValue}}</td>
+                                                            <td style="text-align:center;" ng-style="{ 'background-color' :  actionColorUtilization, 'color':actionColorUtilizationFont  }">{{overAllProduction[0].HeatUtilizationActualValue}}</td>
+                                                            <td style="text-align:center;" ng-style="{ 'background-color' :  actionColorLogistics, 'color':actionColorLogisticsFont  }">{{overAllProduction[0].HeatLogisticsActualValue}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="panel-body">
+                                            <div class="col-sm-12" style="padding-left:0px;">
+                                                <div class="col-sm-6">
+                                                    <div ng-click="viewActiveMachinesClick()" class="infobox infobox-blue panel panel-primary " style="box-shadow: 5px 5px 5px;">
+                                                        <div class="infobox-icon">
+                                                            <i class="ace-icon fa fa-gear fa-2x blue"></i>
+                                                        </div>
+                                                        <div class="infobox-data">
+                                                            <span class="infobox-data-number"><b>{{activeMachine}} </b> / <font size="2">95</font></span>
+                                                            <div class="infobox-content"> <b>Active Machines</b></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6">
+                                                    <div ng-click="viewActiveOperatorClick()" class="infobox infobox-blue panel panel-primary " style="box-shadow: 5px 5px 5px;">
+                                                        <div class="infobox-icon">
+                                                            <i class="ace-icon fa fa-users fa-2x purple"></i>
+                                                        </div>
+                                                        <div class="infobox-data">
+                                                            <span class="infobox-data-number"><b>3</b><font size="1"></font> / <font size="2">100</font><font size="1"></font></span>
+                                                            <div class="infobox-content"><b>Active Operators</b></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row" style="padding-left:100px;">
+
+                                    <div class="col-sm-4" style="width:30%;" ng-repeat="shift in shiftViseProduction">
+                                        <div class="panel panel-primary" style="box-shadow: 5px 5px 5px;">
+                                            <div class="panel-heading" style="text-align:center;">
+                                                <h4 class="panel-title">
+                                                    Shift {{shift.Shift}}
+                                                    <div style="float:right;">
+                                                        <div class="dropup dropdown-hover">
+                                                            <i class="ace-icon fa fa-caret-right white pull-right"></i>
+
+                                                            <ul class="dropdown-menu dropdown-light">
+                                                                <li>
+                                                                    <a href="" ng-click="changeShift(1)" tabindex="-1">Shift 1</a>
+                                                                </li>
+
+                                                                <li>
+                                                                    <a href="" ng-click="changeShift(2)" tabindex="-1">Shift 2</a>
+                                                                </li>
+
+                                                                <li>
+                                                                    <a href="" ng-click="changeShift(3)" tabindex="-1">Shift 3</a>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </h4>
+
+                                            </div>
+                                            <div class="panel-body" style="padding:0px;">
+                                                <table class="table">
+
+                                                    <tr>
+                                                        <td></td>
+                                                        <td style="font-weight:bold;">Production</td>
+                                                        <td style="font-weight:bold;">Efficiency</td>
+                                                        <td style="font-weight:bold;">Utilization</td>
+                                                        <td style="font-weight:bold;">Logistics</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-weight:bold;">Mean</td>
+                                                        <td style="text-align:center" ng-style="{ 'background-color' :  shift.HeatProductionColorAvg, 'color':shift.HeatProductionColorAvgFont }">{{shift.ProductionActualValueAvg}}</td>
+                                                        <td style="text-align:center" ng-style="{ 'background-color' :  shift.HeatEfficiencyColorAvg, 'color':shift.HeatEfficiencyColorAvgFont }">{{shift.EfficiencyActualValueAvg}}</td>
+                                                        <td style="text-align:center" ng-style="{ 'background-color' :  shift.HeatUtilizationColorAvg, 'color':shift.HeatUtilizationColorAvgFont }">{{shift.UtilizationActualValueAvg}}</td>
+                                                        <td style="text-align:center" ng-style="{ 'background-color' :  shift.HeatLogisticsColorAvg, 'color':shift.HeatLogisticsColorAvgFont }">{{shift.LogisticsActualValueAvg}}</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="font-weight:bold;">Median</td>
+                                                        <td style="text-align:center" ng-style="{ 'background-color' :  shift.HeatProductionColorMedian,  'color':shift.HeatProductionColorMedianFont }">{{shift.ProductionActualValueMedian}}</td>
+                                                        <td style="text-align:center" ng-style="{ 'background-color' :  shift.HeatEfficiencyColorMedian,  'color':shift.HeatEfficiencyColorMedianFont }">{{shift.EfficiencyActualValueMedian}}</td>
+                                                        <td style="text-align:center" ng-style="{ 'background-color' :  shift.HeatUtilizationColorMedian,  'color':shift.HeatUtilizationColorMedianFont }">{{shift.UtilizationActualValueMedian}}</td>
+                                                        <td style="text-align:center" ng-style="{ 'background-color' :  shift.HeatLogisticsColorMedian,  'color':shift.HeatLogisticsColorMedianFont }">{{shift.LogisticsActualValueMedian}}</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="font-weight:bold;">Mode</td>
+                                                        <td style="text-align:center">33</td>
+                                                        <td style="text-align:center">90</td>
+                                                        <td style="text-align:center">80</td>
+                                                        <td style="text-align:center">70</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="font-weight:bold;">Range</td>
+                                                        <td style="text-align:center">33</td>
+                                                        <td style="text-align:center">90</td>
+                                                        <td style="text-align:center">80</td>
+                                                        <td style="text-align:center">70</td>
+                                                    </tr>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="widget-box">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter smaller">
+                                                    <i class="ace-icon fa fa-comment blue"></i>
+                                                    Alerts
+                                                </h4>
+                                            </div>
+                                            <div class="widget-body">
+                                                <div class="widget-main no-padding">
+                                                    <div class="dialogs">
+                                                        <div class="itemdiv dialogdiv">
+
+                                                            <div class="body">
+                                                                <div class="time">
+                                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                                    <span class="orange">2 min</span>
+                                                                </div>
+
+                                                                <div class="name">
+                                                                    <a href="#">Machine 1</a>
+                                                                    <!--<span class="label label-info arrowed arrowed-in-right" style="background-color:red;">admin</span>-->
+                                                                </div>
+                                                                <div class="text">Efficiency is too  low.</div>
+
+                                                                <div class="tools">
+                                                                    <a href="#" class="btn btn-minier btn-info">
+                                                                        <i class="icon-only ace-icon fa fa-share"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="itemdiv dialogdiv">
+
+                                                            <div class="body">
+                                                                <div class="time">
+                                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                                    <span class="orange">2 min</span>
+                                                                </div>
+
+                                                                <div class="name">
+                                                                    <a href="#">Preventive maintenance</a>
+                                                                    <!--<span class="label label-info arrowed arrowed-in-right">admin</span>-->
+                                                                </div>
+                                                                <div class="text">5 machines are in preventive maintenance.</div>
+
+                                                                <div class="tools">
+                                                                    <a href="#" class="btn btn-minier btn-info">
+                                                                        <i class="icon-only ace-icon fa fa-share"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="itemdiv dialogdiv">
+
+                                                            <div class="body">
+                                                                <div class="time">
+                                                                    <i class="ace-icon fa fa-clock-o"></i>
+                                                                    <span class="orange">2 min</span>
+                                                                </div>
+
+                                                                <div class="name">
+                                                                    <a href="#">Shift 1</a>
+                                                                    <!--<span class="label label-info arrowed arrowed-in-right">admin</span>-->
+                                                                </div>
+                                                                <div class="text">Shift 1 has been completed.</div>
+
+                                                                <div class="tools">
+                                                                    <a href="#" class="btn btn-minier btn-info">
+                                                                        <i class="icon-only ace-icon fa fa-share"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    
+                                                </div><!-- /.widget-main -->
+                                            </div><!-- /.widget-body -->
+                                        </div><!-- /.widget-box -->
+                                    </div><!-- /.col -->
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--  <div class="hr hr32 hr-dotted" style="margin-top: 0px;margin-bottom:0px;"></div>-->
+                        <!--vinay-->
+                        <script type="text/ng-template" id="machineInfo-dialog.html">
+                            <div class="modal" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" style="width:90%">
+                                    <div class="modal-content">
+                                        <div class="row" ng-repeat="rec in currentShiftRecords | orderBy:'-HeatProductionActualValue'">
+                                            <div class="col-sm-12" style="padding-left:20px ; padding-right: 20px ; padding-top:10px;">
+                                                <div class="panel panel-primary" style="box-shadow: 5px 5px 5px;">
+                                                    <div class="panel-heading" style="background-color:#EFF3F8; color:black; height:35px; text-align: center; ">
+                                                        <table width="100%">
+                                                            <tr>
+                                                                <td>
+                                                                    <h4 class="panel-title">
+                                                                        <font style="font-weight:bold">Machine # {{rec.MachineNo}}</font>
+                                                                    </h4>
+                                                                </td>
+                                                                <td>
+                                                                    <h4 class="panel-title">
+                                                                        <font style="font-weight:bold">Product - Massaline </font>
+                                                                    </h4>
+                                                                </td>
+                                                                <td>
+                                                                    <h4 class="panel-title">
+                                                                        <font style="font-weight:bold">Operator - {{rec.OperatorName}} </font>
+                                                                    </h4>
+                                                                </td>
+                                                                <td>
+                                                                    <h4 class="panel-title">
+                                                                        <font style="font-weight:bold"> Shift # {{rec.Shift}}</font>
+                                                                    </h4>
+                                                                </td>
+                                                                <td>
+                                                                    <h4 class="panel-title">
+                                                                        <font style="font-weight:bold"> Batch # {{rec.BatchNo}}</font>
+                                                                    </h4>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="stat1 "><button ng-click="toggleMachineInfo(rec)" class="buttonDashBoard" style="height:20px; width:35px" ng-style="{ 'background-color' :  rec.HeatProductionColor , 'border-color' :  rec.HeatProductionColor}"> <div ng-if="(isCollapseMachineInfo|filter:{lngMachineId:rec.lngMachineId}:true)[0].isCollapse == true"><i class="fa fa-sort-asc white" aria-hidden="true"></i></div> <div ng-if="(isCollapseMachineInfo|filter:{lngMachineId:rec.lngMachineId}:true)[0].isCollapse == false"><i class="fa fa-sort-desc white" aria-hidden="true"></i></div>   </button></div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div id="divMachineContent" style="height:250px; overflow-y: auto;" ng-show="(isCollapseMachineInfo|filter:{lngMachineId:rec.lngMachineId}:true)[0].isCollapse == true">
+                                                        <div class="row">
+                                                            <div class="panel-body">
+                                                                <div class="col-sm-12">
+                                                                    <div class="col-sm-3">
+                                                                        <div class="infobox infobox-blue panel panel-primary " style="width: 250px; box-shadow: 5px 5px 5px;">
+                                                                            <div class="infobox-icon">
+                                                                                <i class="ace-icon fa fa-cog fa-2x white"></i>
+                                                                            </div>
+                                                                            <div class="infobox-data">
+                                                                                <span class="infobox-data-number"><b>{{rec.ProductionActualValue}} </b> / <font size="2">{{rec.ProductionSetValue}}</font></span>
+                                                                                <div class="infobox-content"><b>Production</b></div>
+                                                                            </div>
+                                                                            <div class="stat1 "><button ng-click="viewProductionInfoClick()" class="buttonDashBoard" ng-style="{ 'background-color' :  rec.HeatProductionColor , 'border-color' :  rec.HeatProductionColor}"> <font ng-style="{'color': rec.HeatProductionColorFont}"><b>{{rec.HeatProductionActualValue}}%</b></font> </button></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <div class="infobox infobox-blue panel panel-primary " style="width: 250px; box-shadow: 5px 5px 5px;">
+                                                                            <div class="infobox-icon">
+                                                                                <i class="ace-icon fa fa-line-chart fa-2x white"></i>
+                                                                            </div>
+                                                                            <div class="infobox-data">
+                                                                                <span class="infobox-data-number"><b>{{rec.EfficiencyActualValue}}</b><font size="1">%</font> / <font size="2">{{rec.EfficiencySetValue}}</font><font size="1">%</font></span>
+                                                                                <div class="infobox-content"><b>Efficiency</b></div>
+                                                                            </div>
+                                                                            <div class="stat1 "><button ng-click="viewEfficiencyInfoClick()" class="buttonDashBoard" ng-style="{ 'background-color' :  rec.HeatEfficiencyColor , 'border-color' :  rec.HeatEfficiencyColor}"> <font ng-style="{'color': rec.HeatEfficiencyColorFont}"><b>{{rec.HeatEfficiencyActualValue}}%</b></font> </button></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <div class="infobox infobox-blue panel panel-primary " style="width: 250px; box-shadow: 5px 5px 5px;">
+                                                                            <div class="infobox-icon">
+                                                                                <i class="ace-icon fa fa-recycle fa-2x white"></i>
+                                                                            </div>
+                                                                            <div class="infobox-data">
+                                                                                <span class="infobox-data-number"><b>{{rec.UtilizationActualValue}}</b><font size="1">%</font> / <font size="2">{{rec.UtilizationSetValue}}</font><font size="1">%</font></span>
+                                                                                <div class="infobox-content"><b>Utilization</b></div>
+                                                                            </div>
+                                                                            <div class="stat1 "><button ng-click="viewUtilizationInfoClick()" class="buttonDashBoard" ng-style="{ 'background-color' :  rec.HeatUtilizationColor , 'border-color' :  rec.HeatUtilizationColor}"> <font ng-style="{'color': rec.HeatUtilizationColorFont}"><b>{{rec.HeatUtilizationActualValue}}%</b></font> </button></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <div class="infobox infobox-blue panel panel-primary " style="width: 250px; box-shadow: 5px 5px 5px;">
+                                                                            <div class="infobox-icon">
+                                                                                <i class="ace-icon fa fa-shopping-cart fa-2x white"></i>
+                                                                            </div>
+                                                                            <div class="infobox-data">
+                                                                                <span class="infobox-data-number"><b>{{rec.LogisticsActualValue}}</b><font size="1">%</font> / <font size="2">{{rec.LogisticsSetValue}}</font><font size="1">%</font></span>
+                                                                                <div class="infobox-content"><b>Logistics</b></div>
+                                                                            </div>
+                                                                            <div class="stat1 "><button ng-click="viewLogisticsInfoClick()" class="buttonDashBoard" ng-style="{ 'background-color' :  rec.HeatLogisticsColor , 'border-color' :  rec.HeatLogisticsColor}"> <font ng-style="{'color': rec.HeatLogisticsColorFont}"><b>{{rec.HeatLogisticsActualValue}}%</b></font> </button></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" style=" height:10px;"></div>
+                                                        <div class="row">
+
+                                                            <!--vinay-->
+                                                            <div class=" col-sm-12" style=" padding-left:50px;padding-right 50px;">
+                                                                <div class="panel panel-primary" style="box-shadow: 5px 5px 5px;">
+
+                                                                    <div class="panel-body" style="padding:0px;">
+                                                                        <table border="1" style="width:100%;" cellspacing="2">
+                                                                            <thead>
+                                                                                <tr style="font-weight: bold; background-color: #EFF3F8; color: black; border-bottom-color: black;">
+                                                                                    <td style="border-right-color: black; text-align: center; "> Finished Batch</td>
+                                                                                    <td colspan="2" style="border-right-color: black; text-align: center; ">Production</td>
+                                                                                    <td colspan="2" style="border-right-color: black; text-align: center; ">Efficiency</td>
+                                                                                    <td colspan="2" style="border-right-color: black; text-align: center; ">Utilization</td>
+                                                                                    <td colspan="2" style="border-right-color: black; text-align: center; ">Logistics</td>
+                                                                                </tr>
+                                                                                <tr style="background-color:#EFF3F8;color:black;border-bottom-color:black;">
+                                                                                    <td style="border-right-color:black;text-align: center; "></td>
+                                                                                    <td style="border-right-color:black;text-align: center; ">Target</td>
+                                                                                    <td style="border-right-color:black;text-align: center; ">Actual</td>
+                                                                                    <td style="border-right-color:black;text-align: center; ">Target</td>
+                                                                                    <td style="border-right-color:black;text-align: center; ">Actual</td>
+                                                                                    <td style="border-right-color:black;text-align: center; ">Target</td>
+                                                                                    <td style="border-right-color:black;text-align: center; ">Actual</td>
+                                                                                    <td style="border-right-color:black;text-align: center; ">Target</td>
+                                                                                    <td style="border-right-color:black;text-align: center; ">Actual</td>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr ng-repeat="csfr in currentShiftFinishedRec|filter:{lngMachineId:rec.lngMachineId}:true ">
+                                                                                    <td style="font-weight:bold;text-align:center;">{{csfr.BatchNo}}</td>
+                                                                                    <td style="text-align:center;">{{csfr.ProductionSetValue}}</td>
+                                                                                    <td style="text-align:center;" ng-click="viewProductionInfoClick()" ng-style="{ 'background-color' :  csfr.HeatProductionColor, 'color': csfr.HeatProductionColorFont }">{{csfr.ProductionActualValue}}</td>
+                                                                                    <td style="text-align:center;">{{csfr.EfficiencySetValue}}</td>
+                                                                                    <td style="text-align:center;" ng-click="viewEfficiencyInfoClick()" ng-style="{ 'background-color' :  csfr.HeatEfficiencyColor, 'color': csfr.HeatEfficiencyColorFont }">{{csfr.EfficiencyActualValue}}</td>
+                                                                                    <td style="text-align:center;">{{csfr.UtilizationSetValue}}</td>
+                                                                                    <td style="text-align:center;" ng-click="viewUtilizationInfoClick()" ng-style="{ 'background-color' :  csfr.HeatUtilizationColor, 'color': csfr.HeatUtilizationColorFont }">{{csfr.UtilizationActualValue}}</td>
+                                                                                    <td style="text-align:center;">{{csfr.LogisticsSetValue}}</td>
+                                                                                    <td style="text-align:center;" ng-click="viewLogisticsInfoClick()" ng-style="{ 'background-color' :  csfr.HeatLogisticsColor, 'color': csfr.HeatLogisticsColorFont }">{{csfr.LogisticsActualValue}}</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--gunjan-->
+                                                            <!--<div class="col-sm-12 panel-body " >
+                                                                <table border="1" style="width:100%;">
+                                                                    <thead>
+                                                                        <tr style="font-weight:bold;background-color:gray;color:white; border-bottom-color:white;">
+                                                                            <td style="border-right-color:white;text-align:center;"> Finished Batch</td>
+                                                                            <td colspan="2" style=" border-right-color: white; text-align: center;">Production</td>
+                                                                            <td colspan="2" style="border-right-color: white; text-align: center;">Efficiency</td>
+                                                                            <td colspan="2" style="border-right-color: white; text-align: center;">Utilization</td>
+                                                                            <td colspan="2" style="border-right-color: white; text-align: center;">Logistics</td>
+                                                                        </tr>
+                                                                        <tr style="font-weight:bold;background-color:gray;color:white; ">
+                                                                            <td style=" border-right-color: white; text-align: center;"></td>
+                                                                            <td style=" border-right-color: white; text-align: center;">Target</td>
+                                                                            <td style=" border-right-color: white; text-align: center;">Actual</td>
+                                                                            <td style=" border-right-color: white; text-align: center;">Target</td>
+                                                                            <td style=" border-right-color: white; text-align: center;">Actual</td>
+                                                                            <td style=" border-right-color: white; text-align: center;">Target</td>
+                                                                            <td style=" border-right-color: white; text-align: center;">Actual</td>
+                                                                            <td style=" border-right-color: white; text-align: center;">Target</td>
+                                                                            <td style=" border-right-color: white; text-align: center;">Actual</td>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+
+                                                                        <tr ng-repeat="csfr in currentShiftFinishedRec|filter:{lngMachineId:rec.lngMachineId}:true ">
+                                                                            <td style="font-weight: bold;text-align:center;">{{csfr.BatchNo}}</td>
+                                                                            <td style="text-align:center;">{{csfr.ProductionSetValue}}</td>
+                                                                            <td style="text-align:center;">{{csfr.ProductionActualValue}}</td>
+                                                                            <td style="text-align:center;">{{csfr.EfficiencySetValue}}</td>
+                                                                            <td style="text-align:center;">{{csfr.EfficiencyActualValue}}</td>
+                                                                            <td style="text-align:center;">{{csfr.UtilizationSetValue}}</td>
+                                                                            <td style="text-align:center;">{{csfr.UtilizationActualValue}}</td>
+                                                                            <td style="text-align:center;">{{csfr.LogisticsSetValue}}</td>
+                                                                            <td style="text-align:center;">{{csfr.LogisticsActualValue}}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>-->
+                                                        </div>
+  </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                  </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            >
+                        </script>
+
+                        <script type="text/ng-template" id="productionInfo-dialog.html">
+                          
+                            <div class="modal" tabindex="-1" role="dialog" style="z-index:9999999;">
+                                <div class="modal-dialog">
+                                    <div>
+                                        <div class="row" style="width:400px;top: 0; bottom: 0; left: 0; right: 0; margin:auto; ">
+                                            <div>
+                                                <div class="panel panel-primary" style="border-color: gray; box-shadow: 5px 5px 5px; ">
+                                                    <div class="panel-heading" style="text-align: center; font-weight: bold; background-color: #e1d5a4; color:black; border-bottom-color: gray; height: 30px; padding-top: 2px; ">Production</div>
+                                                    <div class="panel-heading" style="height: 30px; padding-top: 2px; font-weight: bold; background-color: #FAFAD2; color: black; font-size: 12px; "><span>Indicators</span><span style="float: right;"></span></div>
+                                                    <div style="height: 290px; width: 350px;">
+                                                        <div class="panel-body" style="padding: 0px;">
+                                                            <table style="width:100%; border-collapse:collapse;" class="table-striped">
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Production Set</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #46c095; color:#fff; ">49.00 Deg.&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Production Actual</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #46c095; color:#fff;">25.00 Deg.&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Production Shortfall</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #46c095; color:#fff; ">5.49 Kgs&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Production Rate</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #46c095; color:#fff; ">19.22 </span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Energy/Batch</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #46c095; color:#fff; ">04.30 Kgs&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Power Used</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#46c095; color:#fff; ">03.22 Kgs&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Production Time</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#46c095; color:#fff; ">04.30 Pa&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Machine Speed Set</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#46c095; color:#fff; ">03.22 Kgs&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Machine Speed Actual </td>
+                                                                    <td><span class="badge badge-important" style="background-color: #46c095; color:#fff; ">04.30 Pa&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Efficiency</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #46c095; color:#fff; ">04.30 Pa&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </script>
+
+                        <script type="text/ng-template" id="utilizationInfo-dialog.html">
+                            <div class="modal" tabindex="-1" role="dialog" style="z-index:9999999;">
+                                <div class="modal-dialog">
+                                    <div>
+                                        <div class="row" style="width:400px;top: 0; bottom: 0; left: 0; right: 0; margin: auto; ">
+                                            <div>
+                                                <div class="panel panel-primary" style="border-color:gray; box-shadow: 5px 5px 5px; ">
+                                                    <div class="panel-heading" style="text-align: center; font-weight: bold; background-color: #e1d5a4;color:black; border-bottom-color: gray; height: 30px; padding-top: 2px; ">Time Utilization</div>
+                                                    <div class="panel-heading" style="height: 30px; padding-top: 2px; font-weight: bold; background-color: #FAFAD2; color:black; font-size: 12px; "><span>Indicators</span><span style="float:right;margin-right :50px;">Time</span></div>
+                                                    <div style="height:290px; width:350px;">
+                                                        <div class="panel-body" style="padding:0px;">
+                                                            <table style="width:100%;border-collapse:collapse;" class="table-striped">
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Batch Start Time</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">11.20 AM&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Batch End Time</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">05.45 PM&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Total Batch Time</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">06.25 Hrs&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Total Faulty Time.</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">20.00 Min</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Healthy Time</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">04.30 Hrs&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Production Logistics Time</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">30.00 Min</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Production Run Time</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">05.50 Hrs&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Preventive Maintenance Time</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">02.10 Hrs&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Machine SetUp Time</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">15.00 Min</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Idle Time</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">05.00 Min</span></td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </script>
+
+                        <script type="text/ng-template" id="logisticsInfo-dialog.html">
+                            <div class="modal" tabindex="-1" role="dialog" style="z-index:9999999;">
+                                <div class="modal-dialog">
+                                    <div>
+                                        <div class="row" style="width:400px;top: 0; bottom: 0; left: 0; right: 0; margin: auto; ">
+                                            <div>
+                                                <div class="panel panel-primary" style="border-color:gray; box-shadow: 5px 5px 5px; ">
+                                                    <div class="panel-heading" style="text-align: center; font-weight: bold; background-color: #e1d5a4;color:black; border-bottom-color: gray; height: 30px; padding-top: 2px; ">Preventive Maintenance & Setup Time</div>
+                                                    <div class="panel-heading" style="height: 30px; padding-top: 2px; font-weight: bold; background-color: #FAFAD2; color: black; font-size: 12px; "><span>Indicators</span><span style="float: right; margin-right:50px;">Time</span></div>
+                                                    <div style="height: 360px; width: 350px;">
+                                                        <div class="panel-body" style="padding: 0px;">
+                                                            <table style="width: 100%; border-collapse:collapse;" class="table-striped">
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Preventive Maint. Mech.</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">11.20 AM&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Preventive Maint. Elec.</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">05.45 PM&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Cleaning</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">06.25 Hrs&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Set Change</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">20.00 Min</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Beam Change</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">04.30 Hrs&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Sow Box Lapper Attending</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">30.00 Min</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Warping Beam Lapper Attending</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">05.50 Hrs&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Migration Check</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">02.10 Hrs&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Yarn Crossing Correction</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">15.00 Min</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Comb brkg. Attending</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">05.00 Min</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Set Start</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">15.00 Min</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Set Finish</td>
+                                                                    <td><span class="badge badge-important" style="background-color:#D15B47; color:#fff;">05.00 Min</span></td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </script>
+
+                        <script type="text/ng-template" id="efficiencyInfo-dialog.html">
+                            <div class="modal" tabindex="-1" role="dialog" style="z-index:9999999;">
+                                <div class="modal-dialog">
+                                    <div>
+                                        <div class="row" style="width:400px;top: 0; bottom: 0; left: 0; right: 0; margin: auto; ">
+                                            <div>
+                                                <div class="panel panel-primary" style="border-color: gray; box-shadow: 5px 5px 5px; ">
+                                                    <div class="panel-heading" style="text-align: center; font-weight: bold; background-color: #e1d5a4; color:black; border-bottom-color: gray; height: 30px; padding-top: 2px; ">Mechanical Faulty Time </div>
+                                                    <div class="panel-heading" style="height: 30px; padding-top: 2px; font-weight: bold; background-color: #FAFAD2; color: black; font-size: 12px; "><span>Indicators</span><span style="float: right; margin-right:50px">Time</span></div>
+                                                    <div style="height: 180px; width: 350px;">
+                                                        <div class="panel-body" style="padding: 0px;">
+                                                            <table style="width: 100%; border-collapse: collapse;" class="table-striped">
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Size Paste Shortage</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #46c095; color:#fff; ">03.00 Hrs&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Air Pressure Low</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #46c095; color:#fff; ">10.00 Min&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">No Weaver Beam</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #46c095; color:#fff; ">01.25 Hrs&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Steam Pressure Low</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #46c095; color:#fff; ">15.00 Min</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Total Mechanical Faulty Time</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #46c095; color:#fff; ">04.30 Hrs&nbsp;&nbsp;</span></td>
+                                                                </tr>
+
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="panel panel-primary" style="border-color: gray; box-shadow: 5px 5px 5px; ">
+                                                    <div class="panel-heading" style="text-align: center; font-weight: bold; color: black;background-color: #e1d5a4; border-bottom-color: gray; height: 30px; padding-top: 2px; ">Electrical Faulty Time </div>
+                                                    <div class="panel-heading" style="height: 30px; padding-top: 2px; font-weight: bold; background-color: #FAFAD2; color: black; font-size: 12px; "><span>Indicators</span><span style="float: right; margin-right:50px">Time</span></div>
+                                                    <div style="height: 180px; width: 350px;">
+                                                        <div class="panel-body" style="padding: 0px;">
+                                                            <table style="width: 100%; border-collapse: collapse;" class="table-striped">
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Power Off Time</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #dfca4e; color:#fff; ">00.15 Min</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Fault 1</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #dfca4e; color:#fff; ">00.00 Hrs</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Fault 2</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #dfca4e; color:#fff; ">00.00 Hrs</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Fault 3</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #dfca4e; color:#fff; ">00.00 Hrs</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Fault 4</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #dfca4e; color:#fff; ">00.00 Hrs</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">Total Electrical Faulty Time</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #dfca4e; color:#fff; ">01.30 Hrs</span></td>
+                                                                </tr>
+
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </script>
+
+                        <script type="text/ng-template" id="activeMachinesInfo-dialog.html">
+                            <div class="modal" tabindex="-1" role="dialog" style="z-index:9999999;">
+                                <div class="modal-dialog">
+                                    <div>
+                                        <div class="row" style="width:200px;top: 0; bottom: 0; left: 0; right: 0; margin: auto; ">
+                                            <div>
+                                                <div class="panel panel-primary" style="border-color: gray; box-shadow: 5px 5px 5px; ">
+                                                    <div class="panel-heading" style="text-align: center; font-weight: bold; background-color: #e1d5a4; color:black; border-bottom-color: gray; height: 30px; padding-top: 2px; ">Active Machines</div>
+                                                    <div>
+                                                        <div class="panel-body" style="padding: 0px;">
+                                                            <table style="width: 100%; border-collapse: collapse;" class="table-striped">
+                                                                <tr>
+                                                                    <td style="width: 100%; height: 28px; padding-left: 5px;"><b>#755</b></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 100%; height: 28px; padding-left: 5px;"><b>#756</b></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 100%; height: 28px; padding-left: 5px;"><b>#757</b></td>
+                                                                </tr>
+
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </script>
+
+                        <script type="text/ng-template" id="activeOperatorInfo-dialog.html">
+                            <div class="modal" tabindex="-1" role="dialog" style="z-index:9999999;">
+                                <div class="modal-dialog">
+                                    <div>
+                                        <div class="row" style="width:400px;top:0;bottom:0;left:0;right:0;margin:auto; ">
+                                            <div>
+                                                <div class="panel panel-primary" style="border-color:gray; box-shadow: 5px 5px 5px; ">
+                                                    <div class="panel-heading" style="text-align:center; font-weight: bold; background-color: #e1d5a4; color:black; border-bottom-color: gray; height: 30px; padding-top: 2px; ">Active Operators </div>
+                                                    <div class="panel-heading" style="height: 30px; padding-top: 2px; font-weight: bold; background-color: #FAFAD2; color: black; font-size: 12px; "><span>Machine #</span><span style="float: right; margin-right:10px">Operator Codes</span></div>
+                                                    <div style="width: 350px;">
+                                                        <div class="panel-body" style="padding: 0px;">
+                                                            <table style="width:100%; border-collapse:collapse;" class="table-striped">
+                                                                <tr>
+                                                                    <td style="width:95%; height:28px; padding-left:5px;">#755</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #46c095; color:#fff; ">Steve&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width:95%;height:28px;padding-left:5px;">#756</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #46c095; color:#fff;">Mat&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="width: 95%; height: 28px; padding-left: 5px;">#757</td>
+                                                                    <td><span class="badge badge-important" style="background-color: #46c095; color:#fff; ">David&nbsp;&nbsp;</span></td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </script>
+                        <!--/vinay-->
+
+
+
+                    </div>
+                    <!-- /.widget-body -->
+                </div>
+                <!-- /.widget-box -->
+            </div>
+            <!-- /.col -->
+        </div>-->
+    </div>
+</div>

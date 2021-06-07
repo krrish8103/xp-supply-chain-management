@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d7cf77517cac41729285277d2f614b3e" Name="Diagram1" ZoomLevel="63">
+        <EntityTypeShape EntityType="PPCModel.lkuSCMLookupData" Width="1.5" PointX="13" PointY="11.25" />
+        <EntityTypeShape EntityType="PPCModel.lkuSCMLookupMaster" Width="1.5" PointX="10.75" PointY="11.5" />
+        <EntityTypeShape EntityType="PPCModel.tblCity" Width="1.5" PointX="1.5" PointY="7.5" />
+        <EntityTypeShape EntityType="PPCModel.tblClient" Width="1.5" PointX="3.75" PointY="2" />
+        <EntityTypeShape EntityType="PPCModel.tblCountry" Width="1.5" PointX="1.5" PointY="3.875" />
+        <EntityTypeShape EntityType="PPCModel.tblLocationBinBuffer" Width="1.5" PointX="8.25" PointY="17.625" />
+        <EntityTypeShape EntityType="PPCModel.tblLoginInfo" Width="1.5" PointX="10.75" PointY="36.125" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterBin" Width="1.5" PointX="6" PointY="6.75" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterBOMLevel" Width="1.5" PointX="6" PointY="13.125" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterBOMOperation" Width="1.5" PointX="3" PointY="40.625" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterCustomer" Width="1.5" PointX="8.75" PointY="4.875" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterCustomerContact" Width="1.5" PointX="12.75" PointY="18" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterCustomerSupplierType" Width="1.5" PointX="6.5" PointY="2.625" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterDesignation" Width="1.5" PointX="14.75" PointY="15" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterDocumentType" Width="1.5" PointX="15.75" PointY="2" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterDrawing" Width="1.5" PointX="5.25" PointY="36.5" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterItemCategory" Width="1.5" PointX="0.75" PointY="17.625" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterLocation" Width="1.5" PointX="3.75" PointY="6.75" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterLocationContact" Width="1.5" PointX="10.5" PointY="19.125" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterTax" Width="1.5" PointX="15.75" PointY="10" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterUnitOfMeasure" Width="1.5" PointX="0.75" PointY="21.25" />
+        <EntityTypeShape EntityType="PPCModel.tblMaterialRequisition" Width="1.5" PointX="12.75" PointY="41.25" />
+        <EntityTypeShape EntityType="PPCModel.tblMaterialRequisitionDetail" Width="1.5" PointX="5.25" PointY="25.75" />
+        <EntityTypeShape EntityType="PPCModel.tblMenu" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="PPCModel.tblRefreshToken" Width="1.5" PointX="16.75" PointY="14" />
+        <EntityTypeShape EntityType="PPCModel.tblRoleMenu" Width="1.5" PointX="13" PointY="5.25" />
+        <EntityTypeShape EntityType="PPCModel.tblRolePermission" Width="1.5" PointX="13" PointY="8" />
+        <EntityTypeShape EntityType="PPCModel.tblState" Width="1.5" PointX="1.5" PointY="11.375" />
+        <EntityTypeShape EntityType="PPCModel.tblUserRole" Width="1.5" PointX="13" PointY="2.25" />
+        <AssociationConnector Association="PPCModel.FK_lkuSCMLookupData_lkuSCMLookupMaster" />
+        <AssociationConnector Association="PPCModel.FK_tblCity_tblCountry" />
+        <AssociationConnector Association="PPCModel.FK_tblCity_tblState" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterCustomer_tblCity" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterCustomer_tblCity1" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterLocation_tblCity" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterCustomer_tblCountry" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterCustomer_tblCountry1" />
+        <AssociationConnector Association="PPCModel.FK_tblState_tblCountry" />
+        <AssociationConnector Association="PPCModel.FK_tblLocationBinBuffer_tblMasterBin" />
+        <AssociationConnector Association="PPCModel.FK_tblLocationBinBuffer_tblMasterItem" />
+        <AssociationConnector Association="PPCModel.FK_tblUserRole_tblLoginInfo" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterBin_tblMasterBin" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterBin_tblMasterLocation" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterBOMOperation_tblMasterUnitOfMeasure" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterCustomer_tblMasterCustomerSupplierType" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterCustomer_tblState" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterCustomer_tblState1" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterCustomerContact_tblMasterCustomer" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterLocationContact_tblMasterLocation" />
+        <AssociationConnector Association="PPCModel.FK_tblRoleMenu_tblMenu" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterVendor" Width="1.5" PointX="17.375" PointY="17.75" />
+        <EntityTypeShape EntityType="PPCModel.tblUser" Width="1.5" PointX="5.25" PointY="41.25" />
+        <AssociationConnector Association="PPCModel.FK_tblUser_tblCity" />
+        <AssociationConnector Association="PPCModel.FK_tblLoginInfo_tblUser" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterLocationContact_tblUser" />
+        <AssociationConnector Association="PPCModel.FK_tblMaterialRequisition_tblUser" />
+        <AssociationConnector Association="PPCModel.FK_tblMaterialRequisition_tblUser1" />
+        <EntityTypeShape EntityType="PPCModel.tblPurchaseOrderDeliverySchedule" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="PPCModel.tblDocNumberingPattern" Width="1.5" PointX="13" PointY="0.75" />
+        <AssociationConnector Association="PPCModel.FK_tblDocNumberingPattern_tblMenu" />
+        <EntityTypeShape EntityType="PPCModel.tblRole" Width="1.5" PointX="7.75" PointY="0.75" />
+        <AssociationConnector Association="PPCModel.FK_tblRoleMenu_tblRole" />
+        <AssociationConnector Association="PPCModel.FK_tblRolePermission_tblRole" />
+        <AssociationConnector Association="PPCModel.FK_tblUserRole_tblRole" />
+        <EntityTypeShape EntityType="PPCModel.tblTransaction" Width="1.5" PointX="10.5" PointY="22.5" />
+        <AssociationConnector Association="PPCModel.FK_tblTransaction_tblLocationBinBuffer" />
+        <AssociationConnector Association="PPCModel.FK_tblTransaction_tblMaterialRequisitionDetail" />
+        <EntityTypeShape EntityType="PPCModel.tblProductionPlan" Width="1.5" PointX="8" PointY="42.5" />
+        <EntityTypeShape EntityType="PPCModel.tblProductionPlanDetails" Width="1.5" PointX="10.25" PointY="26.875" />
+        <EntityTypeShape EntityType="PPCModel.tblQCReport" Width="1.5" PointX="16" PointY="36.875" />
+        <EntityTypeShape EntityType="PPCModel.tblStoreCredit" Width="1.5" PointX="15.75" PointY="42.375" />
+        <AssociationConnector Association="PPCModel.FK_tblProductionPlan_tblUser" />
+        <AssociationConnector Association="PPCModel.FK_tblProductionPlan_tblUser1" />
+        <AssociationConnector Association="PPCModel.FK_tblProductionPlanDetails_tblProductionPlan" />
+        <AssociationConnector Association="PPCModel.FK_tblQCReport_tblUser" />
+        <AssociationConnector Association="PPCModel.FK_tblQCReport_tblUser1" />
+        <AssociationConnector Association="PPCModel.FK_tblStoreCredit_tblUser" />
+        <AssociationConnector Association="PPCModel.FK_tblStoreCredit_tblUser1" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterItem" Width="1.5" PointX="3" PointY="19.375" />
+        <AssociationConnector Association="PPCModel.FK_tblLocationBinBuffer_tblMasterItem1" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterDrawing_tblMasterItem" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterItem_tblMasterItemCategory" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterItem_tblMasterUnitOfMeasure" />
+        <AssociationConnector Association="PPCModel.FK_tblMaterialRequisitionDetail_tblMasterItem" />
+        <AssociationConnector Association="PPCModel.FK_tblProductionPlanDetails_tblMasterItem" />
+        <AssociationConnector Association="PPCModel.FK_tblTransaction_tblMasterItem" />
+        <EntityTypeShape EntityType="PPCModel.tblBillOfMaterial" Width="1.5" PointX="7.5" PointY="29.625" />
+        <AssociationConnector Association="PPCModel.FK_tblBillOfMaterial_tblMasterDrawing" />
+        <AssociationConnector Association="PPCModel.FK_tblBillOfMaterial_tblMasterItem" />
+        <AssociationConnector Association="PPCModel.FK_tblBillOfMaterial_tblUser" />
+        <AssociationConnector Association="PPCModel.FK_tblBillOfMaterial_tblUser1" />
+        <EntityTypeShape EntityType="PPCModel.tblBOMOperation" Width="1.5" PointX="13.75" PointY="35.625" />
+        <AssociationConnector Association="PPCModel.FK_tblBOMOperation_tblBillOfMaterial" />
+        <AssociationConnector Association="PPCModel.FK_tblBOMOperation_tblBOMOperation" />
+        <EntityTypeShape EntityType="PPCModel.tblBillOfMaterialDetail" Width="1.5" PointX="12.75" PointY="22.875" />
+        <AssociationConnector Association="PPCModel.FK_tblBillOfMaterialDetail_tblBillOfMaterial" />
+        <AssociationConnector Association="PPCModel.FK_tblBillOfMaterialDetail_tblMasterBOMLevel" />
+        <AssociationConnector Association="PPCModel.FK_tblBillOfMaterialDetail_tblMasterItem" />
+        <EntityTypeShape EntityType="PPCModel.tblStoreCreditDetails" Width="1.5" PointX="18" PointY="25" />
+        <AssociationConnector Association="PPCModel.FK_tblStoreCreditDetails_tblMasterBin" />
+        <AssociationConnector Association="PPCModel.FK_tblStoreCreditDetails_tblMasterItem" />
+        <AssociationConnector Association="PPCModel.FK_tblStoreCreditDetails_tblStoreCredit" />
+        <EntityTypeShape EntityType="PPCModel.tblMaterialReturn" Width="1.5" PointX="18.75" PointY="38.375" />
+        <EntityTypeShape EntityType="PPCModel.tblMaterialReturnDetails" Width="1.5" PointX="15" PointY="19.25" />
+        <AssociationConnector Association="PPCModel.FK_tblMaterialReturnDetails_tblMasterBin" />
+        <AssociationConnector Association="PPCModel.FK_tblMaterialReturnDetails_tblMasterItem" />
+        <AssociationConnector Association="PPCModel.FK_tblMaterialReturn_tblUser" />
+        <AssociationConnector Association="PPCModel.FK_tblMaterialReturn_tblUser1" />
+        <AssociationConnector Association="PPCModel.FK_tblMaterialReturnDetails_tblMaterialReturn" />
+        <EntityTypeShape EntityType="PPCModel.tblBatchBuffer" Width="1.5" PointX="10.5" PointY="16.25" />
+        <AssociationConnector Association="PPCModel.FK_tblBatchBuffer_tblLocationBinBuffer" />
+        <EntityTypeShape EntityType="PPCModel.tblGoodReciptNote" Width="1.5" PointX="7.5" PointY="47.75" />
+        <EntityTypeShape EntityType="PPCModel.tblGoodReciptNoteDetail" Width="1.5" PointX="18.75" PointY="43.875" />
+        <AssociationConnector Association="PPCModel.FK_tblBatchBuffer_tblGoodReciptNoteDetail" />
+        <AssociationConnector Association="PPCModel.FK_tblGoodReciptNote_tblUser" />
+        <AssociationConnector Association="PPCModel.FK_tblGoodReciptNote_tblUser1" />
+        <AssociationConnector Association="PPCModel.FK_tblGoodReciptNoteDetail_tblGoodReciptNote" />
+        <AssociationConnector Association="PPCModel.FK_tblGoodReciptNoteDetail_tblMasterItem" />
+        <EntityTypeShape EntityType="PPCModel.tblMachineLog" Width="1.5" PointX="5.375" PointY="16.75" />
+        <EntityTypeShape EntityType="PPCModel.tblQuotation" Width="1.5" PointX="18" PointY="29.625" />
+        <EntityTypeShape EntityType="PPCModel.tblQuotationDetail" Width="1.5" PointX="20.25" PointY="25.125" />
+        <AssociationConnector Association="PPCModel.FK_tblQuotationDetail_tblMasterItem" />
+        <AssociationConnector Association="PPCModel.FK_tblQuotation_tblUser" />
+        <AssociationConnector Association="PPCModel.FK_tblQuotation_tblUser1" />
+        <AssociationConnector Association="PPCModel.FK_tblQuotationDetail_tblQuotation" />
+        <EntityTypeShape EntityType="PPCModel.tblMailAttachment" Width="1.5" PointX="9.75" PointY="60" />
+        <EntityTypeShape EntityType="PPCModel.tblMailCommnication" Width="1.5" PointX="7.5" PointY="58.75" />
+        <EntityTypeShape EntityType="PPCModel.tblWorkOrder" Width="1.5" PointX="12.75" PointY="27.375" />
+        <EntityTypeShape EntityType="PPCModel.tblWorkOrderDetail" Width="1.5" PointX="15" PointY="24.625" />
+        <AssociationConnector Association="PPCModel.FK_tblWorkOrder_tblBillOfMaterial" />
+        <AssociationConnector Association="PPCModel.FK_tblMailAttachment_tblMailCommnication" />
+        <AssociationConnector Association="PPCModel.FK_tblMailCommnication_tblUser" />
+        <AssociationConnector Association="PPCModel.FK_tblMailCommnication_tblUser1" />
+        <AssociationConnector Association="PPCModel.FK_tblMailCommnication_tblUser2" />
+        <AssociationConnector Association="PPCModel.FK_tblMailCommnication_tblUser3" />
+        <AssociationConnector Association="PPCModel.FK_tblWorkOrder_tblMasterItem1" />
+        <AssociationConnector Association="PPCModel.FK_tblWorkOrderDetail_tblMasterItem" />
+        <AssociationConnector Association="PPCModel.FK_tblMaterialRequisitionDetail_tblWorkOrder" />
+        <AssociationConnector Association="PPCModel.FK_tblMaterialReturnDetails_tblWorkOrder" />
+        <AssociationConnector Association="PPCModel.FK_tblQCReport_tblWorkOrder" />
+        <AssociationConnector Association="PPCModel.FK_tblStoreCreditDetails_tblWorkOrder" />
+        <AssociationConnector Association="PPCModel.FK_tblWorkOrder_tblUser" />
+        <AssociationConnector Association="PPCModel.FK_tblWorkOrder_tblUser1" />
+        <AssociationConnector Association="PPCModel.FK_tblWorkOrder_tblUser2" />
+        <AssociationConnector Association="PPCModel.FK_tblWorkOrderDetail_tblWorkOrder" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterSupplier" Width="1.5" PointX="15.75" PointY="47.375" />
+        <EntityTypeShape EntityType="PPCModel.tblPurchaseOrder" Width="1.5" PointX="13.5" PointY="46.5" />
+        <EntityTypeShape EntityType="PPCModel.tblPurchaseOrderDetail" Width="1.5" PointX="15.75" PointY="30.25" />
+        <AssociationConnector Association="PPCModel.FK_tblPurchaseItem_tblMasterItem" />
+        <AssociationConnector Association="PPCModel.FK_tblPurchaseOrders_tblMasterSupplier" />
+        <AssociationConnector Association="PPCModel.FK_tblQuotation_tblMasterSupplier" />
+        <AssociationConnector Association="PPCModel.FK_tblPurchaseItem_tblPurchase" />
+        <EntityTypeShape EntityType="PPCModel.tblIndent" Width="1.5" PointX="20.75" PointY="32.625" />
+        <EntityTypeShape EntityType="PPCModel.tblIndentItem" Width="1.5" PointX="23" PointY="26.75" />
+        <EntityTypeShape EntityType="PPCModel.tblMasterDepartment" Width="1.5" PointX="10.5" PointY="31.25" />
+        <AssociationConnector Association="PPCModel.FK_tblIndent_tblMasterDepartment" />
+        <AssociationConnector Association="PPCModel.FK_tblIndent_tblUser" />
+        <AssociationConnector Association="PPCModel.FK_tblIndent_tblUser1" />
+        <AssociationConnector Association="PPCModel.FK_tblIndentItem_tblIndent" />
+        <AssociationConnector Association="PPCModel.FK_tblPurchaseOrderDetail_tblIndent" />
+        <AssociationConnector Association="PPCModel.FK_tblIndentItem_tblMasterItem" />
+        <AssociationConnector Association="PPCModel.FK_tblMasterCustomerContact_tblMasterDepartment" />
+        <AssociationConnector Association="PPCModel.FK_tblMaterialRequisition_tblMasterDepartment" />
+        <AssociationConnector Association="PPCModel.FK_tblMaterialReturn_tblMasterDepartment" />
+        <AssociationConnector Association="PPCModel.FK_tblStoreCredit_tblMasterDepartment" />
+        <AssociationConnector Association="PPCModel.FK_tblWorkOrder_tblMasterDepartment" />
+        <EntityTypeShape EntityType="PPCModel.MachineLogTab" Width="1.5" PointX="5.625" PointY="29.375" />
+        <EntityTypeShape EntityType="PPCModel.tblColorCode" Width="1.5" PointX="0.75" PointY="14.75" />
+        <EntityTypeShape EntityType="PPCModel.tblMachineMaster" Width="1.5" PointX="2.75" PointY="14.75" />
+        <AssociationConnector Association="PPCModel.FK_MachineLogTab_tblMasterItem" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

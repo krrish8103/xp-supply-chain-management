@@ -1,0 +1,87 @@
+﻿<div class="modal" tabindex="-1" role="dialog" style="display: block" ng-controller="maintainDocumentNumberingPattern">
+    <div class="modal-dialog" style="width:80%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="$hide()">&times;</button>
+                <h4 class="modal-title">Edit Document Identifier Patterns</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" ng-if="isError">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <strong>
+                        <i class="ace-icon fa fa-times"></i>
+                        Oh snap!
+                    </strong>
+                    {{SuccessErrorMessage}}
+                    <br />
+                </div>
+                <div class="alert alert-block alert-success" ng-if="isSuccess">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Well done!
+                        </strong>
+                        {{SuccessErrorMessage}}
+                    </p>
+                </div>
+                <form name="userForm" class="form-horizontal" novalidate>
+                    <div class="row">
+                        <label class="col-sm-2">Document</label>
+                        <div>
+                            <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtLength.$invalid && (userForm.txtmenuName.$dirty || submitted)}">
+                                <input type="text" name="txtmenuName" class="form-control" ng-model="Documents.DocumentName" placeholder="Menu Name" ng-required="true" disabled>
+                                <p ng-show="userForm.txtmenuName.$error.required && (userForm.txtmenuName.$dirty || submitted)" class="help-block">Blank?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-2">Length</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtLength.$invalid && (userForm.txtLength.$dirty || submitted)}">
+                            <input type="text" name="txtLength" class="form-control" ng-model="Documents.Length" placeholder="Length" maxlength="5" ng-required="true" numeric-only>
+                            <p ng-show="userForm.txtLength.$error.required && (userForm.txtLength.$dirty || submitted)" class="help-block">Blank Lengh?</p>
+                        </div>
+
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-2">Prefix</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="txtPrefix" class="form-control" ng-model="Documents.Prefix" maxlength="5" placeholder="Prefix" ng-required="false">
+
+                        </div>
+
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-2">Suffix</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="txtSuffix" class="form-control" ng-model="Documents.Suffix" maxlength="5" placeholder="Suffix" ng-required="false">
+
+                        </div>
+
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-2">Seed Value</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtSeedvalue.$invalid && (userForm.txtSeedvalue.$dirty || submitted)}">
+                            <input type="text" name="txtSeedvalue" class="form-control" ng-model="Documents.SeedValue" maxlength="5" placeholder="Seed Value" ng-required="true" numeric-only>
+                            <p ng-show="userForm.txtSeedvalue.$error.required && (userForm.txtSeedvalue.$dirty || submitted)" class="help-block">Seed Value required !</p>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-sm" ng-click="saveClick(userForm)">Save</button>
+                <button type="button" class="btn btn-danger btn-sm" ng-click="cancelClick()">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>

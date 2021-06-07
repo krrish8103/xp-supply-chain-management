@@ -1,0 +1,158 @@
+﻿<div class="modal" tabindex="-1" role="dialog" style="display: block" ng-controller="masterItemDrawingController">
+    <div class="modal-dialog" style="width:80%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="$hide()">&times;</button>
+                <h4 class="modal-title">Add /Edit Drawing</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" ng-if="isError">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <strong>
+                        <i class="ace-icon fa fa-times"></i>
+                        Oh snap!
+                    </strong>
+                    {{SuccessErrorMessage}}
+                    <br />
+                </div>
+                <div class="alert alert-block alert-success" ng-if="isSuccess">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Well done!
+                        </strong>
+                        {{SuccessErrorMessage}}
+                    </p>
+                </div>
+                <form name="userForm" class="form-horizontal" novalidate>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group" ng-class="{ 'has-error' : userForm.txtIdentifier.$invalid && (userForm.txtIdentifier.$dirty || submitted)}">
+                                <label class="col-sm-2">Code</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="txtIdentifier" class="form-control" ng-model="itemDrawing.Identifier" placeholder="Code" ng-required="true">
+                                    <p ng-show="userForm.txtIdentifier.$error.required && (userForm.txtIdentifier.$dirty || submitted)" class="help-block">Identifier is required.</p>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{ 'has-error' : userForm.txtVersion.$invalid && (userForm.txtVersion.$dirty || submitted)}">
+                                <label class="col-sm-2">Version</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="txtVersion" class="form-control" ng-model="itemDrawing.Version" placeholder="Version" ng-required="true">
+                                    <p ng-show="userForm.txtVersion.$error.required && (userForm.txtVersion.$dirty || submitted)" class="help-block">Version is required.</p>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{ 'has-error' : userForm.txtDescription.$invalid && (userForm.txtDescription.$dirty || submitted)}">
+                                <label class="col-sm-2">Description</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="txtDescription" class="form-control" ng-model="itemDrawing.Description" placeholder="Description" ng-required="true" ng-minlength="2" ng-maxlength="100">
+                                    <p ng-show="userForm.txtDescription.$error.required && (userForm.txtDescription.$dirty || submitted)" class="help-block">Description is required.</p>
+                                    <p ng-show="userForm.txtDescription.$error.minlength && (userForm.txtDescription.$dirty || submitted)" class="help-block">Description is too short.</p>
+                                    <p ng-show="userForm.txtDescription.$error.maxlength && (userForm.txtDescription.$dirty || submitted)" class="help-block">Description is too long.</p>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-class="{ 'has-error' : userForm.fuDrawing.$invalid && (userForm.fuDrawing.$dirty || submitted)}">
+                                <label class="col-sm-2">Drawing</label>
+                                <div class="col-sm-10">
+                                    <input type="file" class="upload" id="fuDrawing" value="photo" ng-model="itemDrawing.Drawing" tabindex="16" onchange="angular.element(this).scope().file_changed(this)" accept="image/*" />
+                                    <p ng-show="userForm.fuDrawing.$error.required && (userForm.fuDrawing.$dirty || submitted)" class="help-block">Drawing is required.</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2">Is Default</label>
+                                <div class="col-sm-10">
+                                    <input type="checkbox" name="chkActive" class="form-control" style="width:15px;height:15px;" ng-model="itemDrawing.Active">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group" ng-hide="!PreviewDrawing">
+                                <img checkImage ng-src="{{PreviewDrawing}}" style="width:220px;height:220px;"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </form>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="dataTables_wrapper form-inline">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="dataTables_length" id="dynamic-table_length">
+                                        <label>Display <select name="dynamic-table_length" class="input-sm" ng-model="itemsByPage"><option value="5">5</option><option value="10">10</option><option value="20">20</option><option value="50">50</option><option value="100">100</option></select> records</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6"></div>
+                            </div>
+                            <table st-table="dispAllItemDrawing" st-safe-src="allItemDrawing" class="table table-striped table-bordered table-hover" st-set-filter="customFilter">
+                                <thead class="tableheading">
+                                    <tr>
+                                        <th style="width:8%;">Actions</th>
+                                        <th style="width:30%;">
+                                            <div class="sort" st-sort="Identifier"><a>Code</a></div>
+                                            <input type="text" class="filterControl" style="width:30%" autocomplete="off" st-search="Identifier" />
+                                        </th>
+                                        <th style="width:30%;">
+                                            <div class="sort" st-sort="Version"><a>Version</a></div>
+                                            <input type="text" class="filterControl" style="width:30%" autocomplete="off" st-search="Version" />
+                                        </th>
+                                        <th style="width:32%;">
+                                            <div class="sort" st-sort="Active"><a>Is Default</a></div>
+                                            <select class="filterControl" id="ddlHdrDefaultDrawing" name="ddlHdrDefaultDrawing" st-search="Active">
+                                                <option value="">--Select--</option>
+                                                <option value="true">True</option>
+                                                <option value="false">False</option>
+                                            </select>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="dwg in dispAllItemDrawing" ng-class="{'tableRow': !isEven($index +1), 'tableRowAlternate': isEven($index +1)}">
+                                        <td>
+                                            <div class="hidden-sm hidden-xs action-buttons">
+                                                <a class="blue cursorpointer" ng-click="viewDrawingClick(dwg)">
+                                                    <i class="ace-icon fa fa-search-plus bigger-130"></i>
+                                                </a>
+
+                                                <a class="green cursorpointer" ng-click="editDrawingClick(dwg)">
+                                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                                </a>
+
+                                                <a class="red cursorpointer" href="#">
+                                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>{{dwg.DrawingCode}}</td>
+                                        <td>{{dwg.Version}}</td>
+                                        <td>{{dwg.Active}}</td>
+                                    </tr>
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4">
+                                            <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        </div><!-- /.col -->
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-sm" ng-click="saveClick(userForm)">Save</button>
+                <button type="button" class="btn btn-danger btn-sm" ng-click="cancelClick()">Cancel</button>
+               
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,331 @@
+﻿<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#/">Home</a>
+        </li>
+        <li>
+            <a>Master</a>
+        </li>
+        <li>
+            <a>Sales</a>
+        </li>
+        <li class="active">Customers</li>
+        <li class="active">Add/Edit Customer</li>
+    </ul><!-- /.breadcrumb -->
+
+    <div class="nav-search" id="nav-search">
+        <!--<button class="btn btn-primary btn-sm" ng-click="saveClick(userForm)">Save</button>
+        <button type="button" class="btn btn-danger btn-sm" ng-click="cancelClick()">Cancel</button>-->
+        <button class="btn1 btn-primary" type="button" ng-click="saveClick(userForm)">
+            <i class="ace-icon fa fa-plus-circle bigger-110"></i>
+            Save
+        </button>
+        <button class="btn1" type="reset" ng-click="cancelClick();">
+            <i class="ace-icon fa fa-closecircle bigger-110"></i>
+            Cancel
+        </button>
+    </div><!-- /.nav-search -->
+</div>
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-inline">
+                <div class="alert alert-danger" ng-if="isError">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <strong>
+                        <i class="ace-icon fa fa-times"></i>
+                        Oh snap!
+                    </strong>
+                    {{SuccessErrorMessage}}
+                    <br />
+                </div>
+                <div class="alert alert-block alert-success" ng-if="isSuccess">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Well done!
+                        </strong>
+                        {{SuccessErrorMessage}}
+                    </p>
+                </div>
+                <form name="userForm" class="form-horizontal" novalidate>
+                    <div class="row">
+                        <div ng-if="editMode">
+                            <label class="col-sm-1">Identifier</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="txtIdentifier" ng-model="customer.Identifier" placeholder="Identifier" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Legal Name</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtLegalName.$invalid && (userForm.txtLegalName.$dirty || submitted)}">
+                            <input type="text" name="txtLegalName" class="form-control" ng-model="customer.LegalName" placeholder="Legal Name" ng-required="true">
+                            <p ng-show="userForm.txtLegalName.$error.required && (userForm.txtLegalName.$dirty || submitted)" class="help-block">Legal Name is required.</p>
+                        </div>
+                        <label class="col-sm-1">Name</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtName.$invalid && (userForm.txtName.$dirty || submitted)}">
+                            <input type="text" name="txtName" class="form-control" ng-model="customer.Name" placeholder="Name" ng-required="true">
+                            <p ng-show="userForm.txtName.$error.required && (userForm.txtName.$dirty || submitted)" class="help-block">Name is required.</p>
+                        </div>
+                        <label class="col-sm-1">Customer Type</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.ddlCustomerType.$invalid && (userForm.ddlCustomerType.$dirty || submitted)}">
+                            <select class="form-control" id="ddlCustomerType" name="ddlCustomerType" ng-model="customer.CustomerType"
+                                    ng-options="obj.Id as obj.Identifier for obj in dispCustomerSupplierType" ng-required="true">
+                                <option value="">--Select--</option>
+                            </select>
+                            <p ng-show="userForm.ddlCustomerType.$error.required && (userForm.ddlCustomerType.$dirty || submitted)" class="help-block">Customer Type is required.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-12"><b>Address</b></label>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-1">Line 1</label>
+                        <div class="col-sm-11" style="padding-right:0px;" ng-class="{ 'has-error' : userForm.txtAddresssLine1.$invalid && (userForm.txtAddresssLine1.$dirty || submitted)}">
+                            <input type="text" name="txtAddresssLine1" class="form-control" ng-model="customer.AddressLine1" placeholder="Address Line 1" ng-required="true" ng-change="setShippingAddress();">
+                            <p ng-show="userForm.txtAddresssLine1.$error.required && (userForm.txtAddresssLine1.$dirty || submitted)" class="help-block">Address is required.</p>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Line 2</label>
+                        <div class="col-sm-11" style="padding-right:0px;">
+                            <input type="text" name="txtAddresssLine2" class="form-control" ng-model="customer.AddressLine2" placeholder="Address Line 2" ng-change="setShippingAddress();">
+
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Country</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.ddlCountry.$invalid && (userForm.ddlCountry.$dirty || submitted)}">                            
+                            <select class="form-control" id="ddlCountry" name="ddlCountry" ng-model="customer.Country" ng-change="getStateByCountryId(); setShippingAddress();"
+                                    ng-options="obj.Id as obj.Country for obj in dispCountry" ng-required="true">
+                                <option value="">--Select--</option>
+                            </select>
+                            <p ng-show="userForm.ddlCountry.$error.required && (userForm.ddlCountry.$dirty || submitted)" class="help-block">Country is required.</p>
+                        </div>
+                        <label class="col-sm-1">State</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.ddlState.$invalid && (userForm.ddlState.$dirty || submitted)}">
+                            <select class="form-control" id="ddlState" name="ddlState" ng-model="customer.State" ng-change="getCityByStateId(); setShippingAddress();"
+                                    ng-options="obj.Id as obj.State for obj in dispState" ng-required="true">
+                                <option value="">--Select--</option>
+                            </select>
+                            <p ng-show="userForm.ddlState.$error.required && (userForm.ddlState.$dirty || submitted)" class="help-block">State is required.</p>
+                        </div>
+                        <label class="col-sm-1">City</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.ddlCity.$invalid && (userForm.ddlCity.$dirty || submitted)}">
+                            <select class="form-control" id="ddlCity" name="ddlCity" ng-model="customer.City" ng-change="setShippingAddress(); "
+                                    ng-options="obj.Id as obj.City for obj in dispCity" ng-required="true">
+                                <option value="">--Select--</option>
+                            </select>
+                            <p ng-show="userForm.ddlCity.$error.required && (userForm.ddlCity.$dirty || submitted)" class="help-block">City is required.</p>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Zip</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtZip.$invalid && (userForm.txtZip.$dirty || submitted)}">
+                            <input type="text" name="txtZip" class="form-control" ng-model="customer.Zip" placeholder="Zip" ng-required="true" ng-change="setShippingAddress(); ">
+                            <p ng-show="userForm.txtZip.$error.required && (userForm.txtZip.$dirty || submitted)" class="help-block">Zip is required.</p>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-2"><b>Shipping Address</b></label>
+                        <div class="col-sm-10"><input id="chkSameAsCompanyAddress" type="checkbox" ng-model="isSameAsCompanyAddress" ng-change="setShippingAddress();" /> Same As Address</div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-1">Line 1</label>
+                        <div class="col-sm-11" ng-class="{ 'has-error' : userForm.txtSAddresssLine1.$invalid && (userForm.txtSAddresssLine1.$dirty || submitted)}">
+                            <input type="text" name="txtSAddresssLine1" class="form-control" ng-model="customer.ShippingAddressLine1" placeholder="Shipping Address Line 1" ng-required="true" ng-disabled="isSameAsCompanyAddress">
+                            <p ng-show="userForm.txtSAddresssLine1.$error.required && (userForm.txtSAddresssLine1.$dirty || submitted)" class="help-block">Shipping Address is required.</p>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Line 2</label>
+                        <div class="col-sm-11">
+                            <input type="text" name="txtSAddresssLine2" class="form-control" ng-model="customer.ShippingAddressLine2" placeholder="Shipping Address Line 2" ng-disabled="isSameAsCompanyAddress">
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Country</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.ddlSCountry.$invalid && (userForm.ddlSCountry.$dirty || submitted)}">
+                            <select class="form-control" id="ddlSCountry" name="ddlSCountry" ng-model="customer.ShippingCountry" ng-change="getShippingStateByCountryId();" ng-disabled="isSameAsCompanyAddress"
+                                    ng-options="obj.Id as obj.Country for obj in dispCountry" ng-required="true">
+                                <option value="">--Select--</option>
+                            </select>
+                            <p ng-show="userForm.ddlSCountry.$error.required && (userForm.ddlSCountry.$dirty || submitted)" class="help-block">Country is required.</p>
+                        </div>
+                        <label class="col-sm-1">State</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.ddlSState.$invalid && (userForm.ddlSState.$dirty || submitted)}">
+                            <select class="form-control" id="ddlSState" name="ddlSState" ng-model="customer.ShippingState" ng-change="getShippingCityByStateId();" ng-disabled="isSameAsCompanyAddress"
+                                    ng-options="obj.Id as obj.State for obj in dispShippingState" ng-required="true">
+                                <option value="">--Select--</option>
+                            </select>
+                            <p ng-show="userForm.ddlSState.$error.required && (userForm.ddlSState.$dirty || submitted)" class="help-block">State is required.</p>
+                        </div>
+                        <label class="col-sm-1">City</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.ddlSCity.$invalid && (userForm.ddlSCity.$dirty || submitted)}">
+                            <select class="form-control" id="ddlSCity" name="ddlSCity" ng-model="customer.ShippingCity" ng-disabled="isSameAsCompanyAddress"
+                                    ng-options="obj.Id as obj.City for obj in dispShippingCity" ng-required="true">
+                                <option value="">--Select--</option>
+                            </select>
+                            <p ng-show="userForm.ddlSCity.$error.required && (userForm.ddlSCity.$dirty || submitted)" class="help-block">City is required.</p>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Zip</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtSZip.$invalid && (userForm.txtSZip.$dirty || submitted)}">
+                            <input type="text" name="txtSZip" class="form-control" ng-model="customer.ShippingZip" placeholder="Zip" ng-required="true" ng-disabled="isSameAsCompanyAddress">
+                            <p ng-show="userForm.txtSZip.$error.required && (userForm.txtSZip.$dirty || submitted)" class="help-block">Zip is required.</p>
+                        </div>
+                       
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Phone</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtPhone.$invalid && (userForm.txtPhone.$dirty || submitted)}">
+                            <input type="text" name="txtPhone" class="form-control input-mask-phone" ng-model="customer.Phone" placeholder="Phone" ng-required="true">
+                            <p ng-show="userForm.txtPhone.$error.required && (userForm.txtPhone.$dirty || submitted)" class="help-block">Phone is required.</p>
+                        </div>
+                        <label class="col-sm-1">Cell #1</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtMobile1.$invalid && (userForm.txtMobile1.$dirty || submitted)}">
+                            <input type="text" name="txtMobile1" class="form-control" ng-model="customer.Mobile1" placeholder="Mobile1" ng-required="true">
+                            <p ng-show="userForm.txtMobile1.$error.required && (userForm.txtMobile1.$dirty || submitted)" class="help-block">Cell #1 is required.</p>
+                        </div>
+                        <label class="col-sm-1">Cell #2</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="txtMobile2" class="form-control" ng-model="customer.Mobile2" placeholder="Mobile2">
+
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Email</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtEmail.$invalid && (userForm.txtEmail.$dirty || submitted)}">
+                            <input type="text" name="txtEmail" class="form-control" ng-model="customer.Email" placeholder="Email" ng-required="true">
+                            <p ng-show="userForm.txtEmail.$error.required && (userForm.txtEmail.$dirty || submitted)" class="help-block">Email is required.</p>
+                        </div>
+                        <label class="col-sm-1">TIN</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtTIN.$invalid && (userForm.txtTIN.$dirty || submitted)}">
+                            <input type="text" name="txtTIN" class="form-control" ng-model="customer.TINNumber" placeholder="TIN" ng-required="true">
+                            <p ng-show="userForm.txtTIN.$error.required && (userForm.txtTIN.$dirty || submitted)" class="help-block">TIN is required.</p>
+                        </div>
+                        <label class="col-sm-1">Licence No</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtLicence.$invalid && (userForm.txtLicence.$dirty || submitted)}">
+                            <input type="text" name="txtLicence" class="form-control" ng-model="customer.LicenceNumber" placeholder="Licence No" ng-required="true">
+                            <p ng-show="userForm.txtLicence.$error.required && (userForm.txtLicence.$dirty || submitted)" class="help-block">Licence No is required.</p>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-2"><b>Contact Information</b></label>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="dataTables_wrapper form-inline">
+                                <table class="table table-striped table-bordered table-hover" style="table-layout:fixed;">
+                                    <thead class="tableheading">
+                                        <tr>
+                                            <th style="width:3%;"><a ng-click="addNewContactRow()"><i class="ace-icon fa fa-user-plus" data-placement="bottom" data-title="Add more contact" bs-tooltip></i></a></th>
+                                            <th style="width:17%;">
+                                                <div class="sort"><a>Name</a></div>
+                                            </th>
+                                            <th style="width:12%;">
+                                                <div class="sort"><a>Designation</a></div>
+                                            </th>
+                                            <th style="width:11%;">
+                                                <div class="sort"><a>Phone</a></div>
+                                            </th>
+                                            <th style="width:11%;">
+                                                <div class="sort"><a>Cell #1</a></div>
+                                            </th>
+                                            <th style="width:11%;">
+                                                <div class="sort"><a>Cell #2</a></div>
+                                            </th>
+                                            <th style="width:20%;">
+                                                <div class="sort"><a>Email</a></div>
+                                            </th>
+                                            <th style="width:10%;">
+                                                <div class="sort"><a>Department</a></div>
+                                            </th>
+                                            <th style="width:5%;">
+                                                <div class="sort"><a>Default</a></div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="objCustomerContact in contact">
+                                            <td>
+                                                <div class="hidden-sm hidden-xs action-buttons">
+                                                    <a class="red" ng-if="!objgrade.Id" ng-click="!objgrade.disabled && removeRow($index,objCustomerContact)" data-title="Cancel" bs-tooltip data-placement="right">
+                                                        <i class="ace-icon fa fa-trash-o bigger-130" data-placement="bottom" data-title="Remove contact" bs-tooltip></i>
+                                                    </a>
+                                                    <a class="red" ng-if="objgrade.Id" ng-click="!objgrade.disabled && DeletedRow(objCustomerContact,$index)" data-title="Delete" bs-tooltip data-placement="right">
+                                                        <i class="ace-icon fa fa-trash-o bigger-130" data-placement="bottom" data-title="Remove contact" bs-tooltip></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td><input type="text" style="width:98%;" name="txtContactName" class="form-control" ng-model="objCustomerContact.Name" placeholder="Name" ng-required="true"></td>
+                                            <td><input type="text" style="width:98%;" name="txtContactDesignation" class="form-control" ng-model="objCustomerContact.Designation" placeholder="Designation" ng-required="true"></td>
+                                            <td><input type="text" style="width:98%;" name="txtContactPhone" class="form-control input-mask-phone" ng-model="objCustomerContact.Phone" placeholder="Phone" ng-required="true"></td>
+                                            <td><input type="text" style="width:98%;" name="txtContactMobile1" class="form-control" ng-model="objCustomerContact.Mobile1" placeholder="Cell #1" ng-required="true"></td>
+                                            <td><input type="text" style="width:98%;" name="txtContactMobile2" class="form-control" ng-model="objCustomerContact.Mobile2" placeholder="Cell #2" ng-required="true"></td>
+                                            <td><input type="text" style="width:98%;" name="txtContactEmail" class="form-control" ng-model="objCustomerContact.Email" placeholder="Email" ng-required="true"></td>
+                                            <td>
+                                                <!--<input type="text" style="width:95%;" name="txtContactDepartment" class="form-control" ng-disabled="objCustomerContact.disabled" ng-model="objCustomerContact.Department" placeholder="Department" ng-required="true">-->
+
+                                                <select id="ddlContactDepartment" style="width:98%;" name="ddlContactDepartment" ng-model="objCustomerContact.Department"
+                                                        ng-options="obj.Id as obj.DepartmentDescription for obj in allDepartment" ng-required="true">
+                                                    <option value="">--Select--</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" name="chkDefault" id="chkDefault" ng-model="objCustomerContact.IsDefault" ng-click="checkUncheckDefault(objCustomerContact,$index);"/>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><!-- /.col -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="modal" tabindex="-1" role="dialog" style="display: block" ng-controller="maintainCustomerController">
+    <div class="modal-dialog" style="width:80%">-->
+<!--<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$hide()">&times;</button>
+        <h4 class="modal-title">Add /Edit Customer</h4>
+    </div>
+    <div class="modal-body">
+
+
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-sm" ng-click="saveClick(userForm)">Save</button>
+        <button type="button" class="btn btn-danger btn-sm" ng-click="cancelClick()">Cancel</button>
+        <button type="reset" class="btn btn-link" ng-click="reset(userForm)">Reset</button>
+    </div>
+</div>-->
+<!--</div>
+</div>-->

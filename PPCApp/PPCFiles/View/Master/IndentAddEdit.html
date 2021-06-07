@@ -1,0 +1,199 @@
+﻿<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#/">Home</a>
+        </li>
+        <li>
+            <a>Master</a>
+        </li>
+        <li>
+            <a>Indent</a>
+        </li>
+
+        <li class="active">Add/Edit Indent</li>
+    </ul><!-- /.breadcrumb -->
+
+    <div class="nav-search" id="nav-search">
+        <!--<button class="btn btn-primary btn-sm" ng-click="saveClick(userForm)">Save</button>
+        <button type="button" class="btn btn-danger btn-sm" ng-click="cancelClick()">Cancel</button>-->
+
+        <button class="btn1 btn-primary" type="button" ng-click="setDocStatusToWorkingDraft(userForm)" ng-if="(Indent.lngDocStatus==2)">
+            <i class="ace-icon fa fa-reply bigger-110"></i>
+            Send back to Working Draft
+        </button>
+        <button class="btn1 btn-primary" type="button" ng-click="setDocStatusToApproved(userForm)" ng-if="Indent.lngDocStatus==2">
+            <i class="ace-icon fa fa-reply bigger-110"></i>
+            Approved
+        </button>
+
+        <button class="btn1 btn-info" type="button" ng-click="saveClick(userForm)">
+            <i class="ace-icon fa fa-plus-circle bigger-110"></i>
+            Save
+        </button>
+        <button class="btn1" type="reset" ng-click="cancelClick();">
+            <i class="ace-icon fa fa-closecircle bigger-110"></i>
+            Cancel
+        </button>
+    </div><!-- /.nav-search -->
+</div>
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-inline">
+                <div class="alert alert-danger" ng-if="isError">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <strong>
+                        <i class="ace-icon fa fa-times"></i>
+                        Oh snap!
+                    </strong>
+                    {{SuccessErrorMessage}}
+                    <br />
+                </div>
+                <div class="alert alert-block alert-success" ng-if="isSuccess">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Well done!
+                        </strong>
+                        {{SuccessErrorMessage}}
+                    </p>
+                </div>
+                <form name="userForm" class="form-horizontal" novalidate>
+                    <div class="row">
+                        <label class="col-sm-1">Indent Number</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="txtIndentNumber" ng-model="Indent.strIndentNumber" placeholder="Indent Number" readonly>
+                        </div>
+                        <label class="col-sm-1">Indent Date</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.datCreatedOn.$invalid && (userForm.datCreatedOn.$dirty || submitted)}">
+                            <input type="text" class="form-control" ng-model="Indent.datIndentDate" name="Date" data-autoclose="1" data-date-format="dd-MM-yyyy" bs-datepicker required tabindex="2" placeholder="Indent Date" disabled>
+                            <p ng-show="userForm.datCreatedOn.$error.required && (userForm.datCreatedOn.$dirty || submitted)" class="help-block">Date required.</p>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Ref Number</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="txtReferenceNumber" ng-model="Indent.strReference" placeholder="Reference Number" ng-disabled="isEditMode">
+                        </div>
+                        <label class="col-sm-1">Ref Date</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.datCreatedOn.$invalid && (userForm.datCreatedOn.$dirty || submitted)}">
+                            <input type="text" class="form-control" ng-model="Indent.datReferenceDate" name="Date" data-autoclose="1" data-date-format="dd-MM-yyyy" bs-datepicker required tabindex="2" placeholder="Reference Date" ng-disabled="isEditMode ==true && Indent.lngDocStatus!=1">
+                            <p ng-show="userForm.datCreatedOn.$error.required && (userForm.datCreatedOn.$dirty || submitted)" class="help-block">Date required.</p>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Department</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.ddldepartment.$invalid && (userForm.ddldepartment.$dirty || submitted)}">
+                            <select class="form-control" id="ddldepartment" name="ddldepartment" ng-model="Indent.lngDepartmentId"
+                                    ng-options="obj.Id as obj.DepartmentDescription for obj in dispDepartment" ng-required="true" ng-disabled="isEditMode ==true && Indent.lngDocStatus!=1">
+                                <option value="">--Select--</option>
+                            </select>
+                            <p ng-show="userForm.ddldepartment.$error.required && (userForm.ddldepartment.$dirty || submitted)" class="help-block">Item Code is required.</p>
+                        </div>
+
+                        <label class="col-sm-1">Purpose</label>
+                        <div class="col-sm-3">
+                            <input name="txtPurpose" class="form-control" ng-model="Indent.strIndentDescription" placeholder="Purpose" ng-disabled="isEditMode ==true && Indent.lngDocStatus!=1">
+                        </div>
+                    </div>
+
+                    <div class="space-4"></div>
+                    <div class="row">
+                        <label class="col-sm-6"><b>Items</b></label>
+                        <label class="col-sm-6"></label>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="dataTables_wrapper form-inline">
+                                <table class="table table-striped table-bordered table-hover" style="table-layout:fixed;">
+                                    <thead class="tableheading">
+                                        <tr>
+                                            <th style="width:3%;"><a ng-click="addNewItemRow()"><i class="ace-icon fa fa-user-plus" data-placement="bottom" data-title="{{addIconToolTip}}" bs-tooltip></i></a></th>
+                                            <th style="width:10%;">
+                                                <div class="sort"><a>Identifier</a></div>
+                                            </th>
+                                            <th style="width:9%;">
+                                                <div class="sort"><a>UOM</a></div>
+                                            </th>
+                                            <th style="width:10%;">
+                                                <div class="sort"><a>Part #</a></div>
+                                            </th>
+                                            <th style="width:20%;">
+                                                <div class="sort"><a>Description</a></div>
+                                            </th>
+                                            <th style="width:8%;">
+                                                <div class="sort"><a>Qty</a></div>
+                                            </th>
+
+                                            <th style="width:10%;">
+                                                <div class="sort"><a>Buffer</a></div>
+                                            </th>
+                                            <th style="width:20%;">
+                                                <div class="sort"><a>Date Expected</a></div>
+                                            </th>
+                                            <th style="width:20%;">
+                                                <div class="sort"><a>Note</a></div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="objItem in gridItems">
+                                            <td>
+                                                <div class="hidden-sm hidden-xs action-buttons">
+                                                    <a class="red" ng-if="objgrade.Id" ng-click="!objgrade.disabled && DeletedRow(objCustomerContact,$index)" data-title="Delete" bs-tooltip data-placement="right">
+                                                        <i class="ace-icon fa fa-trash-o bigger-130" data-placement="bottom" data-title="Remove" bs-tooltip></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div ng-class="{ 'has-error' : userForm.ddlGridItem.$invalid && (userForm.ddlGridItem.$dirty || submitted)}" ng-disabled="isEditMode ==true && Indent.lngDocStatus!=1">
+                                                    <select id="ddlGridItem" style="width:98%;" name="ddlGridItem" ng-model="objItem.lngItemId" ng-change="getItemDetails(objItem,$index)"
+                                                            ng-options="obj.Id as obj.Identifier for obj in dispItem" ng-required="true">
+                                                        <option value="">--Select--</option>
+                                                    </select>
+                                                    <p ng-show="userForm.ddlGridItem.$error.required && (userForm.ddlGridItem.$dirty || submitted)" class="help-block">item is required.</p>
+                                                </div>
+                                            </td>
+                                            <td><input type="text" style="width:98%;" name="txtGridUOM" class="form-control" ng-model="objItem.UOM" placeholder="UOM" readonly></td>
+                                            <td>
+                                                <input type="text" style="width:98%;" name="txtGridPartNo" class="form-control" ng-model="objItem.PartNo" placeholder="Part #" readonly>
+                                            </td>
+                                            <td><input type="text" style="width:98%;" name="txtGridDescription" class="form-control" ng-model="objItem.ItemDesc" placeholder="Description" readonly></td>
+
+                                            <td>
+                                                <div ng-class="{ 'has-error' : userForm.txtGridQty.$invalid && (userForm.txtGridQty.$dirty || submitted)}">
+                                                    <input type="text" style="width:98%;" name="txtGridQty" class="form-control" ng-model="objItem.intQty" placeholder="Quantity" ng-required="true" ng-disabled="isEditMode ==true && Indent.lngDocStatus!=1" decimal-number>
+                                                    <p ng-show="userForm.txtGridQty.$error.required && (userForm.txtGridQty.$dirty || submitted)" class="help-block">Qty is required.</p>
+                                                </div>
+                                            </td>
+                                            <td><input type="text" style="width:98%;" name="txtGridBuffer" class="form-control" ng-model="objItem.Buffer" placeholder="Buffer" readonly></td>
+
+                                            <td><input type="text" class="form-control" ng-model="objItem.datExpected" name="Date" data-autoclose="1" data-date-format="dd-MM-yyyy" bs-datepicker required placeholder="DateExpected" ng-disabled="isEditMode ==true && Indent.lngDocStatus!=1"></td>
+
+
+
+                                            <td><input type="text" style="width:98%;" name="txtGridNote" class="form-control" ng-model="objItem.strNote" placeholder="Note" ng-disabled="isEditMode ==true && Indent.lngDocStatus!=1"></td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-8"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

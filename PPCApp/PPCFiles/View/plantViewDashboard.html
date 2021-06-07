@@ -1,0 +1,145 @@
+﻿
+<div class="main-container ace-save-state" id="main-container">
+
+    <div class="main-content">
+        <div class="main-content-inner">
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="ace-icon fa fa-home home-icon"></i>
+                        <a href="#/">Home</a>
+                    </li>
+
+                    <li>
+                        <a>Dashboard</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="page-content">
+
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="row" ng-controller="plantViewDashboardController">
+                            <div class="col-xs-12">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading" style="text-align:center;">
+                                        <h4 class="panel-title">
+                                            Work Order Production
+                                        </h4>
+                                    </div>
+                                    <div class="panel-body" style="padding:0px;" >
+                                        <!--<div>
+                        <div>
+                            <svg height="300" width="300">
+                                <ng-rect x-axis="demo.xAxis" y-axis="demo.yAxis" rect-height="demo.rectHeight" rect-width="demo.rectWidth"></ng-rect>
+                            </svg>
+                        </div>
+                        <div>
+                            <label>Set Rectangle Height: </label><input type="text" ng-model="demo.rectHeight" /></br></br>
+                            <label>Set Rectangle Width: </label><input type="text" ng-model="demo.rectWidth" />
+                        </div>
+                    </div>-->
+                                        <div>
+                                            <section class="body-content">
+                                                <ng-demo style="height:300px"></ng-demo>
+                                            </section>
+                                        </div>
+                                       
+                                        <script>
+
+                                            function rStart() {
+                                                document.getElementById('myani').beginElement();
+                                            }
+                                            function rStop() {
+                                                document.getElementById('myani').endElement();
+                                            }
+                                            function ToggleVisibilty(evt, targetid) {
+                                                var valueoff = document.getElementById('g3122').getAttributeNS(null, 'visibility');
+                                                var valueOn = document.getElementById('gSwitchOn').getAttributeNS(null, 'visibility');
+
+
+                                                if (valueoff == 'visible') {
+                                                    document.getElementById('g3122').setAttributeNS(null, 'visibility', 'hidden');
+                                                    document.getElementById('gSwitchOn').setAttributeNS(null, 'visibility', 'visible');
+                                                }
+                                                else {
+                                                    document.getElementById('g3122').setAttributeNS(null, 'visibility', 'visible');
+                                                    document.getElementById('gSwitchOn').setAttributeNS(null, 'visibility', 'hidden');
+                                                }
+
+                                                valueoff = document.getElementById('g3122').getAttributeNS(null, 'visibility');
+                                                valueOn = document.getElementById('gSwitchOn').getAttributeNS(null, 'visibility');
+
+                                                if (valueOn == 'visible') {
+                                                    document.getElementById('myani').beginElement();
+                                                }
+                                                else {
+                                                    document.getElementById('myani').endElement();
+                                                }
+                                                //if (valueOn == 'hidden') {
+
+                                                //    document.getElementById('myani').beginElement();
+                                                //}
+                                                //else {
+                                                //    document.getElementById('myani').endElement();
+                                                //}
+
+                                                //if (valueOff == 'hidden') {
+                                                //    document.getElementById('myani').beginElement();
+                                                //}
+                                                //else {
+                                                //    document.getElementById('myani').endElement();
+                                                //}
+
+                                            }
+
+                                        </script>
+
+                                        <!--<table class="table">
+                        <tr>
+                            <td style="font-weight:bold;">WO #</td>
+                            <td style="font-weight:bold;">Batch Qty</td>
+                            <td style="font-weight:bold;">Prod Qty</td>
+                            <td style="font-weight:bold;">Delay</td>
+                        </tr>
+                        <tr>
+                            <td>1211</td>
+                            <td>20</td>
+                            <td>15</td>
+                            <td>2 Days</td>
+                        </tr>
+                        <tr>
+                            <td>3222</td>
+                            <td>300</td>
+                            <td>20</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>5324</td>
+                            <td>140</td>
+                            <td>90</td>
+                            <td>9 Days</td>
+                        </tr>
+                        <tr>
+                            <td>8623</td>
+                            <td>400</td>
+                            <td>32</td>
+                            <td>1 Days</td>
+                        </tr>
+                    </table>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hr hr32 hr-dotted"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

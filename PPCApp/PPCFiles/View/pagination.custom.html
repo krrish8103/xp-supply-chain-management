@@ -1,0 +1,60 @@
+﻿<style type="text/css">
+    .select-page {
+        width: 50px;
+        text-align: center;
+    }
+
+    .pagination li a input {
+        padding: 0;
+        margin: -5px 0;       
+    }
+
+    .pagination li a {
+        background-color:#307ECC !important;
+        /*background-color: grey;*/
+        color: whitesmoke;
+        cursor:pointer;
+         height:35px;
+    }
+
+    .pagination input {
+        color: black;
+    }
+</style>
+<div class="dataTables_paginate paging_simple_numbers">
+    <nav ng-if="pages.length >= 2">
+        <ul class="pagination">
+            <li>
+                <a ng-click="selectPage(1)"><i class="fa fa-angle-double-left bigger-110"></i></a>
+            </li>
+            <li>
+                <a ng-click="selectPage(currentPage - 1)"><i class="fa fa-angle-left bigger-110"></i></a>
+            </li>
+            <li style="padding:0px; margin:0px;">
+                <a><page-select></page-select> of {{numPages}}</a>
+            </li>
+            <li>
+                <a ng-click="selectPage(currentPage + 1)"><i class="fa fa-angle-right bigger-110"></i></a>
+            </li>
+            <li><a ng-click="selectPage(numPages)"><i class="fa fa-angle-double-right bigger-110"></i></a></li>
+        </ul>
+    </nav>
+    </div>
+    <!--<div class="dataTables_paginate paging_simple_numbers">
+        <ul class="pagination">
+            <li tabindex="0" class="paginate_button previous">
+                <a ng-click="selectPage(1)">First</a>
+            </li>
+            <li tabindex="0" class="paginate_button previous">
+                <a ng-click="selectPage(currentPage - 1)">Previous</a>
+            </li>
+            <li  class="paginate_button active"><a><page-select></page-select> of {{numPages}}</a></li>
+
+            <li  class="paginate_button next">
+                <a ng-click="selectPage(currentPage + 1)">Next</a>
+            </li>
+            <li class="paginate_button next">
+                <a ng-click="selectPage(numPages)">Last</a>
+            </li>
+        </ul>
+    </div>-->

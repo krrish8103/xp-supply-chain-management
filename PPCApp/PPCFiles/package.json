@@ -1,0 +1,18 @@
+{
+  "name": "processautomation",
+  "version": "1.0.0",
+  "description": "Process Connection to external interface",
+  "main": "server.js",
+  "scripts": {
+    "test": "Hello "
+  },
+  "repository": {
+    "type": "git",
+    "url": "Test"
+  },
+  "keywords": [
+    "Umesh"
+  ],
+  "author": "Umesh",
+  "license": "ISC"
+}

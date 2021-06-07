@@ -1,0 +1,297 @@
+﻿<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#/">Home</a>
+        </li>
+        <li>
+            <a>Work Order</a>
+        </li>
+        <li>
+            <a>Work Order</a>
+        </li>
+        <li class="active">Add Edit Work Order</li>
+
+    </ul><!-- /.breadcrumb -->
+
+    <div class="nav-search" id="nav-search">
+        <button class="btn1 btn-info" type="button" ng-click="saveClick(userForm)">
+            <i class="ace-icon fa fa-plus-circle bigger-110"></i>
+            Save
+        </button>
+        <button class="btn1" type="reset" ng-click="cancelClick();">
+            <i class="ace-icon fa fa-closecircle bigger-110"></i>
+            Cancel
+        </button>
+    </div><!-- /.nav-search -->
+</div>
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-inline">
+                <div class="alert alert-danger" ng-if="isError">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <strong>
+                        <i class="ace-icon fa fa-times"></i>
+                        Oh snap!
+                    </strong>
+                    {{SuccessErrorMessage}}
+                    <br />
+                </div>
+                <div class="alert alert-block alert-success" ng-if="isSuccess">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Well done!
+                        </strong>
+                        {{SuccessErrorMessage}}
+                    </p>
+                </div>
+                <form name="userForm" class="form-horizontal" novalidate>
+                    <div class="row">
+                        <label class="col-sm-1">WO #</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="txtWONumber" ng-model="workOrder.strWONumber" placeholder="WO Number" readonly>
+                        </div>
+                        <label class="col-sm-1">Date</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.datCreatedDate.$invalid && (userForm.datCreatedDate.$dirty || submitted)}">
+                            <input type="text" class="form-control" ng-model="workOrder.datCreatedDate" name="Date" data-autoclose="1" data-date-format="dd-MM-yyyy" bs-datepicker required tabindex="2" placeholder="WO Date" disabled>
+                            <p ng-show="userForm.datCreatedDate.$error.required && (userForm.datCreatedDate.$dirty || submitted)" class="help-block">Date is required.</p>
+                        </div>
+                        <label class="col-sm-4"></label>
+
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="row" ng-if="isEditMode">
+                        <label class="col-sm-1">Created By</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="txtCreatedBy" class="form-control" ng-model="workOrder.intCreatedBy" placeholder="Batch Qty">                           
+                        </div>
+
+                        <label class="col-sm-1">Approved By</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="txtApprovedBy" class="form-control" ng-model="workOrder.intApprovedBy" placeholder="Approved By">
+                        </div>
+                        <label class="col-sm-1">Assigned To</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="txtAssignedBy" class="form-control" ng-model="workOrder.intAssignedTo" placeholder="Assigned To">
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="row">                        
+                        <label class="col-sm-1">Item #</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.ddlItem.$invalid && (userForm.ddlItem.$dirty || submitted)}">
+                            <div name="ddlItem" style="width:98%;" custom-select="obj.Id as obj.CodeDesc for obj in dispItem | filter: { CodeDesc: $searchTerm } track by obj.Id"
+                                 ng-model="workOrder.lngItemId"
+                                 ng-change="workOrder.lngItemId > 0 && getItemInfo()" ng-required="true" ng-disabled="isEditMode">
+
+                            </div>
+                            <p ng-show="userForm.ddlItem.$error.required && (userForm.ddlItem.$dirty || submitted)" class="help-block">Item Code is required.</p>
+                        </div>
+                        <label class="col-sm-1">Name</label>
+                        <div class="col-sm-3">
+                            <input name="txtItem" class="form-control" ng-model="item.ItemName" placeholder="Item" readonly>
+                        </div>
+                        <label class="col-sm-1">Part #</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="txtPartNumber" class="form-control" ng-model="item.PartNumber" placeholder="Part #" readonly>
+                        </div>
+                        
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Description</label>
+                        <div class="col-sm-3">
+                            <input name="txtDescription" class="form-control" ng-model="item.ItemDescription" placeholder="Description" readonly>
+                        </div>
+                        <label class="col-sm-1">BOM Ref#</label>
+                        <div class="col-sm-3">
+                            <input name="txtBOMRef" class="form-control" ng-model="operationMaterials.strBOMNumber" placeholder="BOM Ref #" readonly>
+                        </div>
+
+                        <label class="col-sm-1">Dwg #</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.ddlDrawing.$invalid && (userForm.ddlDrawing.$dirty || submitted)}">
+                            <select class="form-control" id="ddlDrawing" name="ddlDrawing" ng-model="workOrder.intDiagramId"
+                                    ng-options="obj.Id as obj.Identifier for obj in itemDrawing" ng-required="true" ng-disabled="true">
+                                <option value="">--Select--</option>
+                            </select>
+                            <p ng-show="userForm.ddlDrawing.$error.required && (userForm.ddlDrawing.$dirty || submitted)" class="help-block">Drawing # is required.</p>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="space-4"></div>
+
+                    <div class="row">
+                        <label class="col-sm-1">Rev #</label>
+                        <div class="col-sm-3">
+                            <input name="txtBOMRevisedDate" class="form-control" ng-model="operationMaterials.RevisedDate" placeholder="BOM RevisedDate" readonly>
+                        </div>
+                        <label class="col-sm-1">PP#</label>
+                        <div class="col-sm-3" >
+                            <select id="ddlProductionPlanNo" style="width:98%;" name="ddlContactDepartment" ng-model="workOrder.intProductionPlanId">
+                                <option value="">--Select--</option>
+                            </select>
+                            
+                        </div>
+                        <label class="col-sm-1">Department</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.ddlDepartment.$invalid && (userForm.ddlDepartment.$dirty || submitted)}">
+                            <select id="ddlDepartment" style="width:98%;" name="ddlContactDepartment" ng-model="workOrder.intDepartmentId">
+                                <option value="">--Select--</option>
+                            </select>
+                            <p ng-show="userForm.ddlDepartment.$error.required && (userForm.ddlDepartment.$dirty || submitted)" class="help-block">Department is required.</p>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="row">
+                        <label class="col-sm-1">SPSF Ref #</label>
+                        <div class="col-sm-3">
+                            <select class="form-control" id="ddlDrawing" name="ddlSPSF" ng-model="workOrder.intSalesForecastId">
+                                <option value="">--Select--</option>
+                            </select>                           
+                        </div>
+
+                        <label class="col-sm-1">Cust Order #</label>
+                        <div class="col-sm-3">
+                            <select class="form-control" id="ddlDrawing" name="ddlCustomerOrder" ng-model="workOrder.intCustomerOrderId">
+                                <option value="">--Select--</option>
+                            </select>                         
+                        </div>
+
+                        <label class="col-sm-1">Batch Qty</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtBatchQty.$invalid && (userForm.txtBatchQty.$dirty || submitted)}">
+                            <input type="text" name="txtBatchQty" style="width:70%;" class="form-control" ng-model="workOrder.decBatchQty" placeholder="Batch Qty" ng-required="true" decimal-number ng-change="workOrder.decBatchQty>0 && updateComponantQuantity();">
+                            <div style="width:29%;float:right;vertical-align:middle;margin-top:6px;margin-left:1px;">{{item.tblMasterUnitOfMeasure.UOMCode}}</div>
+                            <p ng-show="userForm.txtBatchQty.$error.required && (userForm.txtBatchQty.$dirty || submitted)" class="help-block">Batch Qty is required.</p>
+                            
+                        </div>                        
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Date of Completation</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtExpectedCompletationDate.$invalid && (userForm.txtExpectedCompletationDate.$dirty || submitted)}">
+                            <input type="text" name="txtExpectedCompletationDate" class="form-control" ng-model="workOrder.datExpectedDateOfCompletation" data-autoclose="1" data-date-format="dd-MM-yyyy" bs-datepicker required tabindex="2" placeholder="Expected Date of Complete">
+                            <p ng-show="userForm.txtExpectedCompletationDate.$error.required && (userForm.txtExpectedCompletationDate.$dirty || submitted)" class="help-block">Date is required.</p>
+                        </div>
+                        <label class="col-sm-4">Delivery Schedule</label>
+                        <label class="col-sm-4"><b></b></label>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="table-header">
+                                Drawing
+                            </div>
+                            <a data-placement="auto" data-title="Click here to expand" bs-tooltip><img ng-src="{{previewDrawing}}" ng-if="previewDrawing" style="cursor:pointer; width:100%;height:200px;border:solid;border-width:1px;" ng-click="workOrder.intDiagramId > 0 && openDrawing()" /></a>
+                            <img src="Content/assets/images/defaultDwgNotFound.png" ng-if="!previewDrawing" style="width:100%;height:200px;border:solid;border-width:1px;" />
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="table-header">
+                                Technical Specification
+                            </div>
+                            <textarea name="txtSpecification" class="form-control" style="height:200px;" ng-model="workOrder.strBOMDescription" placeholder="Technical specification" ng-required="true"></textarea>
+
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <div class="row">
+                        <label class="col-sm-6"><b>Items</b></label>
+                        <label class="col-sm-6"></label>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="dataTables_wrapper form-inline">
+                                <table class="table table-striped table-bordered table-hover" style="table-layout:fixed;">
+                                    <thead class="tableheading">
+                                        <tr>                                            
+                                            <th style="width:25%;">
+                                                <div class="sort"><a>Identifier</a></div>
+                                            </th>
+                                            <th style="width:10%;">
+                                                <div class="sort"><a>Part #</a></div>
+                                            </th>
+                                            <!--<th style="width:15%;">
+                                                <div class="sort"><a>Description</a></div>
+                                            </th>-->
+                                            <th style="width:7%;">
+                                                <div class="sort"><a>Phase</a></div>
+                                            </th>
+                                            
+                                            <th style="width:8%;">
+                                                <div class="sort"><a>Qty</a></div>
+                                            </th>
+                                            <th style="width:8%;">
+                                                <div class="sort"><a>UOM</a></div>
+                                            </th>
+                                            <th style="width:8%;">
+                                                <div class="sort"><a>Buffer</a></div>
+                                            </th>
+                                            <th style="width:8%;">
+                                                <div class="sort"><a>Dwg#</a></div>
+                                            </th>
+                                            <th style="width:8%;">
+                                                <div class="sort"><a>Proc Status</a></div>
+                                            </th>
+                                            <th style="width:10%;">
+                                                <div class="sort"><a>Note</a></div>
+                                            </th>
+                                            <th style="width:5%;">
+                                                <div class="sort"><a>Indent</a></div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="objItem in gridItems">                                            
+                                            <td>
+                                                <div ng-class="{ 'has-error' : userForm.ddlGridItem.$invalid && (userForm.ddlGridItem.$dirty || submitted)}">
+                                                    <select id="ddlGridItem" style="width:98%;" name="ddlGridItem" ng-model="objItem.lngItemId" 
+                                                            ng-options="obj.Id as obj.CodeDesc for obj in dispItem" ng-required="true" disabled>
+                                                        <option value="">--Select--</option>
+                                                    </select>
+                                                    <p ng-show="userForm.ddlGridItem.$error.required && (userForm.ddlGridItem.$dirty || submitted)" class="help-block">item is required.</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                               {{objItem.partNo}}
+                                            </td>
+                                            <!--<td><input type="text" style="width:98%;" name="txtGridDescription" class="form-control" ng-model="objItem.itemdesc" placeholder="Description" readonly></td>-->
+                                            <td>
+                                                <div ng-class="{ 'has-error' : userForm.ddlGridPhase.$invalid && (userForm.ddlGridPhase.$dirty || submitted)}">
+                                                    <select id="ddlGridPhase" style="width:98%;" name="ddlGridPhase" ng-model="objItem.intPhase"
+                                                            ng-options="obj.lngId as obj.strCode for obj in dispWOPhase" ng-required="true">
+                                                        <option value="">--Select--</option>
+                                                    </select>
+                                                    <p ng-show="userForm.ddlGridPhase.$error.required && (userForm.ddlGridPhase.$dirty || submitted)" class="help-block">Phase is required.</p>
+                                                  
+                                                </div>
+                                            </td>
+                                            <td>{{objItem.lngQuantity}}</td>
+                                            <td>{{objItem.uom}}</td>
+                                            <td><input type="text" style="width:98%;" name="txtGridBuffer" class="form-control" ng-model="objItem.buffer" placeholder="Buffer" readonly></td>
+                                            <td><a ng-click="openDrawingPopUp()">{{objItem.dwgName}}</a></td>
+                                            <td><input type="text" style="width:98%;" name="txtGridProcStatus" class="form-control" ng-model="objItem.procStatus" placeholder="Proc Status"  data-autoclose="1" data-date-format="dd-MM-yyyy" bs-datepicker required ></td>
+                                            <td><input type="text" style="width:98%;" name="txtGridNote" class="form-control" ng-model="objItem.strNote" placeholder="Note"></td>
+                                            <td><input type="checkbox" style="height:15px; width:15px;" name="chkIndent" class="form-control" ng-model="objItem.Indent"></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-8"></div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

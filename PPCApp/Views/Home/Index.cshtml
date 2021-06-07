@@ -1,0 +1,840 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Sri Technologies</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="~/Content/assets/images/favicon.ico" />
+  
+    @Styles.Render("~/Content/Styles/css")
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="~/Content/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+
+    <!-- text fonts -->
+    <link rel="stylesheet" href="~/Content/assets/css/fonts.googleapis.com.css" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="~/Content/assets/css/ace.min.css" class="ace-main-stylesheet" />
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="~/Content/assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+    <![endif]-->
+
+    <link rel="stylesheet" href="~/Content/assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="~/Content/assets/css/ace-rtl.min.css" />
+
+    <!--[if lte IE 9]>
+      <link rel="stylesheet" href="~/Content/assets/css/ace-ie.min.css" />
+    <![endif]-->
+    <!-- ace settings handler -->
+    @*<script src="~/Content/assets/js/ace-extra.min.js"></script>*@
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+    <!--[if lte IE 8]>
+    <script src="~/Content/assets/js/html5shiv.min.js"></script>
+    <script src="~/Content/assets/js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .st-sort-default:before {
+            /*content: '\25B1';*/
+        }
+
+        .st-sort-ascent:before {
+            content: '\25B2';
+        }
+
+        .st-sort-descent:before {
+            content: '\25BC';
+        }
+    </style>
+    
+</head>
+
+<body class="no-skin" ng-app="PPCApp">
+    <div ng-controller="headerController">
+        <script type="text/ng-template" id="timedout-dialog.html">
+            <div class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" style="width:80%">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" ng-click="$hide()">&times;</button>
+                            <h4 class="modal-title">Logout Alert</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <h3> Account inactive for {{ countdown - 1 }} minutes...</h3>
+                                <div ng-idle-countdown="countdown" ng-init="countdown=60" class="modal-body">
+                                    <progressbar max="60" value="countdown" animate="true" class="progress-striped active" type="warning" translate="yes">You will be logged out in {{countdown}} second(s).</progressbar>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="$hide()" style="width: 100px;">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+
+
+
+        <div class="main-container ace-save-state" id="main-container" style="background-color:#DFE0E2">
+            <div class="fixedDiv" style="top:0;">
+                <div id="navbar" class="navbar navbar-default          ace-save-state" data-role="header" data-position="fixed" data-scroll="true" >
+                    <div class="navbar-container ace-save-state" id="navbar-container">
+                        @*<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+                            <span class="sr-only">Toggle sidebar</span>
+
+                            <span class="icon-bar"></span>
+
+                            <span class="icon-bar"></span>
+
+                            <span class="icon-bar"></span>
+                        </button>*@
+
+                        <div class="navbar-header pull-left" ng-if="showLoggedInMenu">
+                            <a href="index.html" class="navbar-brand">
+                                <small>
+                                    <img ng-src="{{clientImage}}" style="border-radius: 50%;height:40px;width:40px; margin-top:2px;" />
+                                    {{clientInfo.Description}}
+                                </small>
+                            </a>
+                        </div>
+                        <div class="navbar-header" style="margin-left:40%;margin-top:5px;" ng-if="!showLoggedInMenu">
+                            <a href="index.html" class="navbar-brand">
+                                <small>
+                                    {{clientInfo.Description}}
+                                </small>
+                            </a>
+                        </div>
+                        <div class="navbar-buttons navbar-header pull-right" role="navigation" ng-if="showLoggedInMenu">
+                            <ul class="nav ace-nav">
+                                <li class="grey dropdown-modal">
+                                    <a data-toggle="dropdown" class="dropdown-toggle" href="">
+                                        <i class="ace-icon fa fa-tasks"></i>
+                                        <span class="badge badge-grey">4</span>
+                                    </a>
+
+                                    <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+                                        <li class="dropdown-header">
+                                            <i class="ace-icon fa fa-check"></i>
+                                            4 Tasks to complete
+                                        </li>
+
+                                        <li class="dropdown-content">
+                                            <ul class="dropdown-menu dropdown-navbar">
+                                                <li>
+                                                    <a href="">
+                                                        <div class="clearfix">
+                                                            <span class="pull-left">Software Update</span>
+                                                            <span class="pull-right">65%</span>
+                                                        </div>
+
+                                                        <div class="progress progress-mini">
+                                                            <div style="width:65%" class="progress-bar"></div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="">
+                                                        <div class="clearfix">
+                                                            <span class="pull-left">Hardware Upgrade</span>
+                                                            <span class="pull-right">35%</span>
+                                                        </div>
+
+                                                        <div class="progress progress-mini">
+                                                            <div style="width:35%" class="progress-bar progress-bar-danger"></div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="">
+                                                        <div class="clearfix">
+                                                            <span class="pull-left">Unit Testing</span>
+                                                            <span class="pull-right">15%</span>
+                                                        </div>
+
+                                                        <div class="progress progress-mini">
+                                                            <div style="width:15%" class="progress-bar progress-bar-warning"></div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="">
+                                                        <div class="clearfix">
+                                                            <span class="pull-left">Bug Fixes</span>
+                                                            <span class="pull-right">90%</span>
+                                                        </div>
+
+                                                        <div class="progress progress-mini progress-striped active">
+                                                            <div style="width:90%" class="progress-bar progress-bar-success"></div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="dropdown-footer">
+                                            <a href="">
+                                                See tasks with details
+                                                <i class="ace-icon fa fa-arrow-right"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="purple dropdown-modal">
+                                    <a data-toggle="dropdown" class="dropdown-toggle" href="">
+                                        <i class="ace-icon fa fa-bell icon-animated-bell"></i>
+                                        <span class="badge badge-important">8</span>
+                                    </a>
+
+                                    <ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+                                        <li class="dropdown-header">
+                                            <i class="ace-icon fa fa-exclamation-triangle"></i>
+                                            8 Notifications
+                                        </li>
+
+                                        <li class="dropdown-content">
+                                            <ul class="dropdown-menu dropdown-navbar navbar-pink">
+                                                <li>
+                                                    <a href="">
+                                                        <div class="clearfix">
+                                                            <span class="pull-left">
+                                                                <i class="btn btn-xs no-hover btn-pink fa fa-comment"></i>
+                                                                New Comments
+                                                            </span>
+                                                            <span class="pull-right badge badge-info">+12</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="">
+                                                        <i class="btn btn-xs btn-primary fa fa-user"></i>
+                                                        Bob just signed up as an editor ...
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="">
+                                                        <div class="clearfix">
+                                                            <span class="pull-left">
+                                                                <i class="btn btn-xs no-hover btn-success fa fa-shopping-cart"></i>
+                                                                New Orders
+                                                            </span>
+                                                            <span class="pull-right badge badge-success">+8</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="">
+                                                        <div class="clearfix">
+                                                            <span class="pull-left">
+                                                                <i class="btn btn-xs no-hover btn-info fa fa-twitter"></i>
+                                                                Followers
+                                                            </span>
+                                                            <span class="pull-right badge badge-info">+11</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="dropdown-footer">
+                                            <a href="">
+                                                See all notifications
+                                                <i class="ace-icon fa fa-arrow-right"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="green dropdown-modal">
+                                    <a data-toggle="dropdown" class="dropdown-toggle" href="">
+                                        <i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
+                                        <span class="badge badge-success">5</span>
+                                    </a>
+
+                                    <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+                                        <li class="dropdown-header">
+                                            <i class="ace-icon fa fa-envelope-o"></i>
+                                            5 Messages
+                                        </li>
+
+                                        <li class="dropdown-content">
+                                            <ul class="dropdown-menu dropdown-navbar">
+                                                <li>
+                                                    <a href="" class="clearfix">
+                                                        <img src="~/Content/assets/images/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+                                                        <span class="msg-body">
+                                                            <span class="msg-title">
+                                                                <span class="blue">Alex:</span>
+                                                                Ciao sociis natoque penatibus et auctor ...
+                                                            </span>
+
+                                                            <span class="msg-time">
+                                                                <i class="ace-icon fa fa-clock-o"></i>
+                                                                <span>a moment ago</span>
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="" class="clearfix">
+                                                        <img src="~/Content/assets/images/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+                                                        <span class="msg-body">
+                                                            <span class="msg-title">
+                                                                <span class="blue">Susan:</span>
+                                                                Vestibulum id ligula porta felis euismod ...
+                                                            </span>
+
+                                                            <span class="msg-time">
+                                                                <i class="ace-icon fa fa-clock-o"></i>
+                                                                <span>20 minutes ago</span>
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="" class="clearfix">
+                                                        <img src="~/Content/assets/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+                                                        <span class="msg-body">
+                                                            <span class="msg-title">
+                                                                <span class="blue">Bob:</span>
+                                                                Nullam quis risus eget urna mollis ornare ...
+                                                            </span>
+
+                                                            <span class="msg-time">
+                                                                <i class="ace-icon fa fa-clock-o"></i>
+                                                                <span>3:15 pm</span>
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="" class="clearfix">
+                                                        <img src="~/Content/assets/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+                                                        <span class="msg-body">
+                                                            <span class="msg-title">
+                                                                <span class="blue">Kate:</span>
+                                                                Ciao sociis natoque eget urna mollis ornare ...
+                                                            </span>
+
+                                                            <span class="msg-time">
+                                                                <i class="ace-icon fa fa-clock-o"></i>
+                                                                <span>1:33 pm</span>
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="" class="clearfix">
+                                                        <img src="~/Content/assets/images/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+                                                        <span class="msg-body">
+                                                            <span class="msg-title">
+                                                                <span class="blue">Fred:</span>
+                                                                Vestibulum id penatibus et auctor  ...
+                                                            </span>
+
+                                                            <span class="msg-time">
+                                                                <i class="ace-icon fa fa-clock-o"></i>
+                                                                <span>10:09 am</span>
+                                                            </span>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="dropdown-footer">
+                                            <a href="#/inbox">
+                                                See all messages
+                                                <i class="ace-icon fa fa-arrow-right"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                @*Deepak*@
+                                <li class="light-blue dropdown-modal">
+                                    <a data-toggle="dropdown" style="cursor:pointer;" class="dropdown-toggle">
+                                        <img class="nav-user-photo" src="~/Content/assets/images/avatars/user.jpg" alt="Jason's Photo" />
+                                        <span class="user-info" title="Welcome, {{loggedInUser}}">
+                                            <small>Welcome,</small>
+                                            {{loggedInUser}}
+                                        </span>
+
+                                        <i class="ace-icon fa fa-caret-down"></i>
+                                    </a>
+
+                                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+
+                                        <li>
+                                            <a href="">
+                                                <i class="ace-icon fa fa-cog"></i>
+                                                Settings
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="profile.html">
+                                                <i class="ace-icon fa fa-user"></i>
+                                                Profile
+                                            </a>
+                                        </li>
+
+                                        <li class="divider"></li>
+
+                                        <li>
+                                            <a href="" data-ng-click="Logout()">
+                                                <i class="ace-icon fa fa-power-off"></i>
+                                                Logout
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div><!-- /.navbar-container -->
+                </div>
+
+                <div id="sidebar" ng-if="showLoggedInMenu" ng-class="{'sidebar h-sidebar navbar-collapse collapse menu-min': isExpandMenu==false , 'sidebar h-sidebar navbar-collapse collapse':isExpandMenu==true}">
+
+                    <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+                        <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                            <button class="btn btn-success">
+                                <i class="ace-icon fa fa-signal"></i>
+                            </button>
+
+                            <button class="btn btn-info">
+                                <i class="ace-icon fa fa-pencil"></i>
+                            </button>
+
+                            <button class="btn btn-warning">
+                                <i class="ace-icon fa fa-users"></i>
+                            </button>
+
+                            <button class="btn btn-danger">
+                                <i class="ace-icon fa fa-cogs"></i>
+                            </button>
+                        </div>
+
+                        <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                            <span class="btn btn-success"></span>
+
+                            <span class="btn btn-info"></span>
+
+                            <span class="btn btn-warning"></span>
+
+                            <span class="btn btn-danger"></span>
+                        </div>
+                    </div>
+                    
+
+                    <ul class="nav nav-list" id="menu">
+
+                        <li class="open hover" ng-repeat="uMenu in userMenus | filter:{ ParentId : 0 }:true">
+                            <a href="" class="dropdown-toggle" ng-click="checkChildren(uMenu)">
+                                <i class="menu-icon {{uMenu.MenuIcon}}"></i>
+                                <span class="menu-text" ng-if="isExpandMenu"> {{uMenu.MenuName}} </span>
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow" ng-if="uMenu.hasChildren"></b>
+                            <ul class="submenu" ng-if="uMenu.hasChildren">
+                                <li class="open hover" ng-repeat="usMenu in userMenus | filter: {ParentId : uMenu.Id}:true" ng-click="checkChildren(usMenu)">
+                                    <a href="" class="dropdown-toggle">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        {{usMenu.MenuName}}
+                                        <b class="arrow fa fa-angle-down" ng-if="usMenu.hasChildren"></b>
+                                    </a>
+                                    <b class="arrow" ng-if="usMenu.hasChildren"></b>
+                                    <ul class="submenu" ng-if="usMenu.hasChildren">
+                                        <li class="hover" ng-repeat="us2Menu in userMenus | filter: {ParentId : usMenu.Id}:true" ng-click="checkChildren(us2Menu)">
+                                            <a href="">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                {{us2Menu.MenuName}}
+                                                <b class="arrow fa fa-angle-down" ng-if="us2Menu.hasChildren"></b>
+                                            </a>
+                                            <b class="arrow"></b>                                            
+                                            <ul class="submenu" ng-if="us2Menu.hasChildren">
+                                                <li class="hover" ng-repeat="us3Menu in userMenus | filter: {ParentId : us2Menu.Id}:true" ng-click="checkChildren(us3Menu)">
+                                                    <a href="">
+                                                        <i class="menu-icon fa fa-caret-right"></i>
+                                                        {{us3Menu.MenuName}}
+                                                    </a>
+                                                    <b class="arrow"></b>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="open hover">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-desktop"></i>
+                                <span class="menu-text" ng-if="isExpandMenu">
+                                    UI &amp; Elements
+                                </span>
+
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+
+                            <b class="arrow"></b>
+
+                            <ul class="submenu">
+                                <li class="active open hover">
+                                    <a href="#" class="dropdown-toggle">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+
+                                        Layouts
+                                        <b class="arrow fa fa-angle-down"></b>
+                                    </a>
+
+                                    <b class="arrow"></b>
+
+                                    <ul class="submenu">
+                                        <li class="active hover">
+                                            <a href="top-menu.html">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Top Menu
+                                            </a>
+
+                                            <b class="arrow"></b>
+                                        </li>
+
+                                        <li class="hover">
+                                            <a href="two-menu-1.html">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Two Menus 1
+                                            </a>
+
+                                            <b class="arrow"></b>
+                                        </li>
+
+                                        <li class="hover">
+                                            <a href="two-menu-2.html">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Two Menus 2
+                                            </a>
+
+                                            <b class="arrow"></b>
+                                        </li>
+
+                                        <li class="hover">
+                                            <a href="mobile-menu-1.html">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Default Mobile Menu
+                                            </a>
+
+                                            <b class="arrow"></b>
+                                        </li>
+
+                                        <li class="hover">
+                                            <a href="mobile-menu-2.html">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Mobile Menu 2
+                                            </a>
+
+                                            <b class="arrow"></b>
+                                        </li>
+
+                                        <li class="hover">
+                                            <a href="mobile-menu-3.html">
+                                                <i class="menu-icon fa fa-caret-right"></i>
+                                                Mobile Menu 3
+                                            </a>
+
+                                            <b class="arrow"></b>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="hover">
+                                    <a href="typography.html">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Typography
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="hover">
+                                    <a href="elements.html">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Elements
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="hover">
+                                    <a href="buttons.html">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Buttons &amp; Icons
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="hover">
+                                    <a href="content-slider.html">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Content Sliders
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="hover">
+                                    <a href="treeview.html">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Treeview
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="hover">
+                                    <a href="jquery-ui.html">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        jQuery UI
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="hover">
+                                    <a href="nestable-list.html">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Nestable Lists
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="hover">
+                                    <a href="#" class="dropdown-toggle">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+
+                                        Three Level Menu
+                                        <b class="arrow fa fa-angle-down"></b>
+                                    </a>
+
+                                    <b class="arrow"></b>
+
+                                    <ul class="submenu">
+                                        <li class="hover">
+                                            <a href="#">
+                                                <i class="menu-icon fa fa-leaf green"></i>
+                                                Item #1
+                                            </a>
+
+                                            <b class="arrow"></b>
+                                        </li>
+
+                                        <li class="hover">
+                                            <a href="#" class="dropdown-toggle">
+                                                <i class="menu-icon fa fa-pencil orange"></i>
+
+                                                4th level
+                                                <b class="arrow fa fa-angle-down"></b>
+                                            </a>
+
+                                            <b class="arrow"></b>
+
+                                            <ul class="submenu">
+                                                <li class="hover">
+                                                    <a href="#">
+                                                        <i class="menu-icon fa fa-plus purple"></i>
+                                                        Add Product
+                                                    </a>
+
+                                                    <b class="arrow"></b>
+                                                </li>
+
+                                                <li class="hover">
+                                                    <a href="#">
+                                                        <i class="menu-icon fa fa-eye pink"></i>
+                                                        View Products
+                                                    </a>
+
+                                                    <b class="arrow"></b>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+
+
+                    </ul><!-- /.nav-list -->
+                    <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                        <a style="float:right;margin-top:-8px;" ng-click="collapseExpandMenuBar(true)" ng-if="!isExpandMenu"><i class="ace-icon fa fa-angle-double-down"></i></a>
+                        <a style="float:right;margin-top:-8px;" ng-click="collapseExpandMenuBar(false)" ng-if="isExpandMenu"><i class="ace-icon fa fa-angle-double-up"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div ng-class="{'main-content setMarginToContent35': showLoggedInMenu==false , 'main-content setMarginToContent117':showLoggedInMenu==true && isExpandMenu==true,'main-content setMarginToContent90':showLoggedInMenu==true && isExpandMenu==false}">
+                <div data-ng-view=""></div>
+            </div>
+            <div class="footer fixedDiv" style="bottom:0;background:#307ECC;" ng-if="!showLoggedInMenu">
+            
+                <div class="footer-inner">
+                    <span class="bigger-120">
+                        <span class="white bold"><i class="fa fa-leaf"></i> <a class="white" href="http://www.sritechnologies.com/" target="_blank">Sri Technologies</a> &copy; 2017</span>
+                    </span>
+
+                    &nbsp; &nbsp;
+                    <span class="action-buttons">
+                        <a href="#">
+                            <i class="ace-icon fa fa-twitter-square white bigger-150"></i>
+                        </a>
+                        <a href="#">
+                            <i class="ace-icon fa fa-facebook-square white text-primary bigger-150"></i>
+                        </a>
+                        <a href="#">
+                            <i class="ace-icon fa fa-rss-square white bigger-150"></i>
+                        </a>
+                    </span>
+                </div>
+
+            </div>
+
+            <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+                <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+            </a>
+        </div><!-- /.main-container -->
+    </div>
+
+
+
+    @Scripts.Render("~/Content/Angular/Scripts")
+    <script src="~/Content/tableExport.js"></script>
+    <script src="~/Content/jquery.base64.js"></script>
+    <script src="~/Content/sprintf.js"></script>
+    <script src="~/Content/jspdf.js"></script>
+    <script src="~/Content/base64.js"></script>
+    <script src="~/Content/assets/js/bootbox.js"></script>
+    <script>
+
+    </script>
+ @*<script src="~/PPCFiles/node_modules/mssql/lib/base.js"></script>
+    <script src="~/PPCFiles/node_modules/mssql/lib/cli.js"></script>
+    <script src="~/PPCFiles/node_modules/mssql/lib/connectionstring.js"></script>
+    <script src="~/PPCFiles/node_modules/mssql/lib/datatypes.js"></script>
+    <script src="~/PPCFiles/node_modules/mssql/lib/isolationlevel.js"></script>
+    <script src="~/PPCFiles/node_modules/mssql/lib/msnodesqlv8.js"></script>
+    <script src="~/PPCFiles/node_modules/mssql/lib/table.js"></script>
+    <script src="~/PPCFiles/node_modules/mssql/lib/tedious.js"></script>
+    <script src="~/PPCFiles/node_modules/mssql/lib/udt.js"></script>*@
+    @Scripts.Render("~/PPCAppFiles/app")
+    <!-- basic scripts -->
+    <!--[if !IE]> -->
+    @*<script src="~/Content/assets/js/jquery-2.1.4.min.js"></script>*@
+
+    <!-- <![endif]-->
+    <!--[if IE]>
+    <script src="~/Content/assets/js/jquery-1.11.3.min.js"></script>
+    <![endif]-->
+    @*<script type="text/javascript">
+            if ('ontouchstart' in document.documentElement) document.write("<script src='~/Content/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+        </script>*@
+
+
+    <!-- page specific plugin scripts -->
+    <!-- ace scripts -->
+    @*<script src="~/Content/assets/js/ace-elements.min.js"></script>
+        <script src="~/Content/assets/js/ace.min.js"></script>*@
+
+    <!-- inline scripts related to this page -->
+    @*<script type="text/javascript">
+            jQuery(function ($) {
+                var $sidebar = $('.sidebar').eq(0);
+                if (!$sidebar.hasClass('h-sidebar')) return;
+
+                $(document).on('settings.ace.top_menu', function (ev, event_name, fixed) {
+                    if (event_name !== 'sidebar_fixed') return;
+
+                    var sidebar = $sidebar.get(0);
+                    var $window = $(window);
+
+                    //return if sidebar is not fixed or in mobile view mode
+                    var sidebar_vars = $sidebar.ace_sidebar('vars');
+                    if (!fixed || (sidebar_vars['mobile_view'] || sidebar_vars['collapsible'])) {
+                        $sidebar.removeClass('lower-highlight');
+                        //restore original, default marginTop
+                        sidebar.style.marginTop = '';
+
+                        $window.off('scroll.ace.top_menu')
+                        return;
+                    }
+
+
+                    var done = false;
+                    $window.on('scroll.ace.top_menu', function (e) {
+
+                        var scroll = $window.scrollTop();
+                        scroll = parseInt(scroll / 4);//move the menu up 1px for every 4px of document scrolling
+                        if (scroll > 17) scroll = 17;
+
+
+                        if (scroll > 16) {
+                            if (!done) {
+                                $sidebar.addClass('lower-highlight');
+                                done = true;
+                            }
+                        }
+                        else {
+                            if (done) {
+                                $sidebar.removeClass('lower-highlight');
+                                done = false;
+                            }
+                        }
+
+                        sidebar.style['marginTop'] = (17 - scroll) + 'px';
+                    }).triggerHandler('scroll.ace.top_menu');
+
+                }).triggerHandler('settings.ace.top_menu', ['sidebar_fixed', $sidebar.hasClass('sidebar-fixed')]);
+
+                $(window).on('resize.ace.top_menu', function () {
+                    $(document).triggerHandler('settings.ace.top_menu', ['sidebar_fixed', $sidebar.hasClass('sidebar-fixed')]);
+                });
+
+
+            });
+        </script>*@
+    <script src="~/Content/assets/js/jquery.validate.min.js"></script>
+    <script src="~/Content/assets/js/libmbhmicontrols2.js"></script>
+
+ 
+    @*<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+   <script type="text/javascript" src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>*@
+  @*  <script type="text/javascript" src="http://f.cl.ly/items/0P311r3a2x2C1x0z1w2R/jquery.ui.nestedSortable.js"></script>*@
+ 
+
+  
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+﻿<div class="modal" tabindex="-1" role="dialog" style="display: block" ng-controller="maintainBOMOperationController">
+    <div class="modal-dialog" style="width:80%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="$hide()">&times;</button>
+                <h4 class="modal-title">Add /Edit Operation materials</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" ng-if="isError">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <strong>
+                        <i class="ace-icon fa fa-times"></i>
+                        Oh snap!
+                    </strong>
+                    {{SuccessErrorMessage}}
+                    <br />
+                </div>
+                <div class="alert alert-block alert-success" ng-if="isSuccess">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Well done!
+                        </strong>
+                        {{SuccessErrorMessage}}
+                    </p>
+                </div>
+                <form class="form-horizontal">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group" ng-class="{ 'has-error' : userForm.txtEmailTo.$invalid && (userForm.txtEmailTo.$dirty || submitted)}">
+                                <label class="col-sm-3">To</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="txtEmailTo" class="form-control" ng-model="writemail.txtEmailTo" placeholder="To" ng-required="true">
+                                    <p ng-show="userForm.txtEmailTo.$error.required && (userForm.txtEmailTo.$dirty || submitted)" class="help-block">Email TO is required.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="col-sm-3">CC</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="txtEmailCC" class="form-control" ng-model="writemail.txtEmailCC" placeholder="CC">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr hr-18 dotted"></div>
+                        <div class="col-xs-12">
+                            <div class="form-group" ng-class="{ 'has-error' : userForm.txtEmailSubject.$invalid && (userForm.txtEmailSubject.$dirty || submitted)}">
+                                <label class="col-sm-3">Subject</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="txtEmailSubject" class="form-control" ng-model="writemail.txtEmailSubject" placeholder="Subject">
+                                    <p ng-show="userForm.txtEmailSubject.$error.required && (userForm.txtEmailSubject.$dirty || submitted)" class="help-block">Subject is required.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr hr-18 dotted"></div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="col-sm-3">Message</label>
+                                <div class="col-sm-9">
+                                    <div class="wysiwyg-editor"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr hr-18 dotted"></div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="col-sm-3">Attachments</label>
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <input type="file" class="col-sm-6" name="attachment[]" />
+                                        <button id="id-add-attachment" type="button" class="btn btn-sm btn-primary">
+                                            <i class="ace-icon fa fa-paperclip btn-sm"></i>
+                                            Add Attachment
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-sm" ng-click="saveClick(userForm)">Save</button>
+                <button type="button" class="btn btn-danger btn-sm" ng-click="cancelClick()">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>

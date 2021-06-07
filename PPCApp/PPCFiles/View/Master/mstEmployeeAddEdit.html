@@ -1,0 +1,158 @@
+﻿<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#/">Home</a>
+        </li>
+        <li>
+            <a>Master</a>
+        </li>
+        <li>
+            <a>Configuration</a>
+        </li>
+        <li class="active">Employee</li>
+        <li class="active">Add/Edit Employee</li>
+    </ul><!-- /.breadcrumb -->
+
+    <div class="nav-search" id="nav-search">
+        <!--<button class="btn btn-primary btn-sm" ng-click="saveClick(userForm)">Save</button>
+        <button type="button" class="btn btn-danger btn-sm" ng-click="cancelClick()">Cancel</button>-->
+        <button class="btn1 btn-primary" type="button" ng-click="saveClick(userForm)">
+            <i class="ace-icon fa fa-plus-circle bigger-110"></i>
+            Save
+        </button>
+        <button class="btn1" type="reset" ng-click="cancelClick();">
+            <i class="ace-icon fa fa-closecircle bigger-110"></i>
+            Cancel
+        </button>
+    </div><!-- /.nav-search -->
+</div>
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-inline">
+                <div class="alert alert-danger" ng-if="isError">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <strong>
+                        <i class="ace-icon fa fa-times"></i>
+                        Oh snap!
+                    </strong>
+                    {{SuccessErrorMessage}}
+                    <br />
+                </div>
+                <div class="alert alert-block alert-success" ng-if="isSuccess">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <i class="ace-icon fa fa-times"></i>
+                    </button>
+                    <p>
+                        <strong>
+                            <i class="ace-icon fa fa-check"></i>
+                            Well done!
+                        </strong>
+                        {{SuccessErrorMessage}}
+                    </p>
+                </div>
+                <form name="userForm" class="form-horizontal" novalidate>
+                    <div class="row">
+                        <div >
+                            <label class="col-sm-1">Identifier</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="txtIdentifier" ng-model="Employee.Identifier" placeholder="Identifier" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-1">First Name</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtFirstName.$invalid && (userForm.txtFirstName.$dirty || submitted)}">
+                            <input type="text" name="txtFirstName" class="form-control" ng-model="Employee.FirstName" placeholder="First Name" ng-required="true">
+                            <p ng-show="userForm.txtFirstName.$error.required && (userForm.txtFirstName.$dirty || submitted)" class="help-block">First Name is required.</p>
+                        </div>
+                        <label class="col-sm-1">Middle Name</label>
+                        <div class="col-sm-3" >
+                            <input type="text" name="txtMiddleName" class="form-control" ng-model="Employee.MiddleName" placeholder="Middle Name" >
+                        </div>
+                        <label class="col-sm-1">Last Name</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.txtLastName.$invalid && (userForm.txtLastName.$dirty || submitted)}">
+                            <input type="text" name="txtLastName" class="form-control" ng-model="Employee.LastName" placeholder="Last Name" ng-required="true">
+                            <p ng-show="userForm.txtLastName.$error.required && (userForm.txtLastName.$dirty || submitted)" class="help-block">Last Name is required.</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label class="col-sm-1">DOB</label>
+                        <div class="col-sm-3" ng-class="{ 'has-error' : userForm.datDOB.$invalid && (userForm.datDOB.$dirty || submitted)}">
+                            <input type="text" class="form-control" ng-model="Employee.DOB" name="datDOB" data-autoclose="1" data-date-format="dd-MM-yyyy" bs-datepicker required tabindex="2" placeholder="DOB">
+                            <p ng-show="userForm.datDOB.$error.required && (userForm.datDOB.$dirty || submitted)" class="help-block">DOB is required.</p>
+                        </div>
+                        <label class="col-sm-1">Gender</label>
+                        <div class="col-sm-3">
+                            <select class="form-control" id="ddlGender" name="ddlGender" ng-model="Employee.Gender"
+                                    ng-required="true">
+                                <option value="-1">--Select--</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
+                            <p ng-show="userForm.ddlGender.$error.required && (userForm.ddlGender.$dirty || submitted)" class="help-block">Gender is required.</p>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-1">Photo </label>
+                        <div class="col-sm-3">
+                            <input type="file" class="upload" id="fuPhoto" value="photo" ng-model="Employee.Photo" tabindex="16" onchange="angular.element(this).scope().file_changed(this)" accept="image/*" />
+                            <p ng-show="userForm.fuPhoto.$error.required && (userForm.fuPhoto.$dirty || submitted)" class="help-block">Photo is required.</p>
+                        </div>
+                       
+                    </div>
+                    <div class="space-6"></div>
+
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="form-group col-sm-3" ng-hide="!PreviewDrawing">
+                            <img checkimage ng-src="{{PreviewDrawing}}" style="width:180px;height:180px;" />
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row">
+                        <label class="col-sm-1">Marrital Status</label>
+                        <div class="col-sm-3">
+                            <select class="form-control" id="ddlMarritalStatus" name="ddlGender" ng-model="Employee.MarritalStatus">
+                                <option value="-1">--Select--</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                            </select>
+                        </div>
+                        <label class="col-sm-1">Designation</label>
+                        <div class="col-sm-3">
+                            <select class="form-control" id="ddlDesignation" name="ddlGender" ng-model="Employee.Designation">
+                                <option value="-1">--Select--</option>
+                                <option value="1">Shop Manager</option>
+                                <option value="2">Cashier</option>
+                                <option value="3">Accountant</option>
+                                <option value="4">Store Keeper</option>
+                            </select>
+                        </div>
+                     
+                    </div>
+
+                    <div class="row">
+                        <label class="col-sm-1">Line 1</label>
+                        <div class="col-sm-7" ng-class="{ 'has-error' : userForm.txtAddressLine1.$invalid && (userForm.txtAddressLine1.$dirty || submitted)}">
+                            <input type="text" name="txtAddressLine1" class="form-control" ng-model="Employee.AddressLine1" placeholder="Address Line 1">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-2">Address Line 1</label>
+                        <div class="col-sm-10" ng-class="{ 'has-error' : userForm.txtAddressLine1.$invalid && (userForm.txtAddressLine1.$dirty || submitted)}">
+                            <input type="text" name="txtAddressLine1" class="form-control" ng-model="Employee.AddressLine1" placeholder="Address Line 1">
+                        </div>
+                    </div>
+                   </form>
+            </div>
+        </div>
+    </div>
+</div>
+
